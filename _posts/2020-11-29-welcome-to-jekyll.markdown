@@ -27,3 +27,11 @@ Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most ou
 [jekyll-docs]: https://jekyllrb.com/docs/home
 [jekyll-gh]:   https://github.com/jekyll/jekyll
 [jekyll-talk]: https://talk.jekyllrb.com/
+
+<script>
+
+  const out = fetch("http://localhost:4000/");
+  console.log("helou");
+  out.then(console.log);
+</script>
+<!-- https://stackoverflow.com/questions/2754391/embed-javascript-in-markdown -->
