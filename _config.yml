@@ -71,11 +71,11 @@ defaults:
       is_post: false
       layout: default
 
-google_analytics: UA-193024289-1
-analytics:
-  provider: "google-universal"
-  google:
-    tracking_id: "UA-193024289-1"
+# google_analytics: UA-193024289-1
+# analytics:
+#   provider: "google-universal"
+#   google:
+#     tracking_id: "UA-193024289-1"
 
 include:
   - _pages
