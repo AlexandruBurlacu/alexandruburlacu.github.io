@@ -8,6 +8,8 @@ date:   2019-09-15 23:20:00 +0200
 categories: posts
 ---
 
+{% gtm body %}
+
 _Originally published on Medium, quite some time ago, [here](https://medium.com/@alexburlacu1996/feature-selection-for-machine-learning-2-2-1a5a5b822581)_
 
 In this part, we’re gonna see how to use information-theoretic concepts like mutual information, to identify the most relevant features for a machine learning model. Also, the Boruta algorithm will de described and some heuristics on how to choose FS algorithms based on dataset size and sparseness will be given.

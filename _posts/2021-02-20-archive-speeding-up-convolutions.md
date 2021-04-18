@@ -8,6 +8,8 @@ date:   2018-05-02 23:20:00 +0200
 categories: posts
 ---
 
+{% gtm body %}
+
 _Originally published on Medium, quite some time ago, [here](https://towardsdatascience.com/speeding-up-convolutional-neural-networks-240beac5e30f). It includes some fixes regarding the text and listings of the post_
 
 An overview of methods to speed up training of convolutional neural networks without significant impact on the accuracy.

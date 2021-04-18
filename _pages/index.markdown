@@ -7,6 +7,8 @@ permalink: /
 title: Alex's ocasional blog posts
 ---
 
+{% gtm body %}
+
 ... less frequent than a blue moon event
 
 Hello <del>cold, lawless, and utterly meaningless place</del> world
