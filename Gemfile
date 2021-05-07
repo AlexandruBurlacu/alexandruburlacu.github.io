@@ -17,7 +17,7 @@ gem "github-pages", "~> 209", group: :jekyll_plugins
 group :jekyll_plugins do
   gem "jekyll-feed", "~> 0.12"
   gem 'jekyll-google-tag-manager', "~> 1.0.3"
-  gem "jekyll-pdf-embed"
+  # gem "jekyll-pdf-embed"
 end
 
 # Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem
