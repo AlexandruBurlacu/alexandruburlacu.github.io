@@ -14,7 +14,7 @@ _Originally published on Medium, quite some time ago, [here](https://medium.com/
 
 In this part, we’re gonna see how to use information-theoretic concepts like mutual information, to identify the most relevant features for a machine learning model. Also, the Boruta algorithm will de described and some heuristics on how to choose FS algorithms based on dataset size and sparseness will be given.
 
-> The first part of this series can be accessed [here]().
+> The first part of this series can be accessed [here]({{ site.url }}/posts/posts/archive-feature-selection-1/).
 
 ## Boruta: when forests help you find the way
 
@@ -51,12 +51,13 @@ Mutual Information is a measure of how much the presence/absence of some variabl
 
 Given two discrete random variables X and Y with probability mass functions p( x), p( y) and joint probability mass function p( x, y) we have the following formula for correlation
 
-> Cov(X, Y) = E(XY) − E(X)E(Y) = ∑p(x, y)xy − ∑p(x)x ⋅ ∑p(y)y ⇒ Cov(X, Y) = ∑[p(x, y)−p(x)p(y)]xy
+> $$ Cov(X, Y) = E(XY) − E(X)E(Y) = \sum p(x, y)xy − \sum p(x)x \sum p(y)y $$
+> $$ \implies Cov(X, Y) = \sum [p(x, y)−p(x)p(y)]xy $$
 
 and for mutual information
 
-> I(X, Y) = H(XY) — H(X)H(Y) = E(lnp(x, y)p(x)p(y))
-> ⇒ I(X, Y) = ∑p(x, y)[lnp(x,y)−lnp(x)p(y)]
+> $$ I(X, Y) = H(XY) — H(X)H(Y) = \mathbb{E}[\ln p(x, y)p(x)p(y)] $$
+> $$ \implies I(X, Y) = \sum p(x, y)[\ln p(x,y)−\ln p(x)p(y)] $$
 
 So, these two are not opposites in any way, just two different perspectives on some distributions.
 
@@ -71,11 +72,12 @@ But now, for feature selection, one has to consider many combinations of feature
 
 To make the problem more tractable, some assumptions are used. One of them, the fact that already selected features are independent of the features not selected but under consideration. This allows for a greedy selection process and a simplified formula to solve:
 
-> argmax I(xi; y) — [αI(xi; xs)-βI(xi; xs|y)] where i not in S
+> $$ argmax I(x_i; y) — [\alpha I(x_i; x_s) - \beta I(x_i; x_s|y)] $$
+> where $$ i \notin S $$
 
-The left side of the formula searches for maximum relevancy and the right one for minimal redundancy. Different MI-based feature selection algorithms vary α and β parameters, thus changing some of the other assumptions of the algorithm. For example, the JMI, aka joint mutual information algorithm assigns the 1/#selected features-1 to both α and β. And then we arrive at mRMR.
+The left side of the formula searches for maximum relevancy and the right one for minimal redundancy. Different MI-based feature selection algorithms vary α and β parameters, thus changing some of the other assumptions of the algorithm. For example, the JMI, aka joint mutual information algorithm assigns the `1/#selected features-1` to both α and β. And then we arrive at mRMR.
 
-mRMR (minimal-redundancy-maximum-relevance) is a class of algorithms that try to identify features with most mutual information with the target variable, yet minimum overlap between them. It assigns 1/#selected features-1 to α and 0 to β from the formula above. The [original paper](http://home.penglab.com/papersall/docpdf/2005_TPAMI_FeaSel.pdf) described 2 methods, MID and MIQ, that is, minimum information distance and minimum information quotient, respectively.
+mRMR (minimal-redundancy-maximum-relevance) is a class of algorithms that try to identify features with most mutual information with the target variable, yet minimum overlap between them. It assigns `1/#selected features-1` to α and 0 to β from the formula above. The [original paper](http://home.penglab.com/papersall/docpdf/2005_TPAMI_FeaSel.pdf) described 2 methods, MID and MIQ, that is, minimum information distance and minimum information quotient, respectively.
 
 A nice package with scikit-learn compatible interface can be found [here](https://github.com/danielhomola/mifs). Here’s a code sample from them:
 

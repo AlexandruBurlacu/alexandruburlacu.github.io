@@ -80,4 +80,5 @@ google:
 include:
   - _pages
   - _data
+  - _layouts
 

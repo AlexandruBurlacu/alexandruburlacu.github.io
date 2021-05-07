@@ -26,7 +26,7 @@ Only filter methods will be presented because they are more generic and less com
 
 Sit tight 😉
 
-> Second part can be accessed [here]()
+> Second part can be accessed [here]({{ site.url }}/posts/posts/archive-feature-selection-2/)
 
 # First things first: the basics
 
