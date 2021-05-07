@@ -9,7 +9,7 @@
     <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
   </head>
   <body>
-    {% gtm body %}
+    
     <a-scene physics="debug: true; gravity: 9.8">
 
         <a-assets>

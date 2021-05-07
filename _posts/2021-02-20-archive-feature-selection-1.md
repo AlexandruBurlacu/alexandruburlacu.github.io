@@ -8,7 +8,7 @@ date:   2019-09-08 23:20:00 +0200
 categories: posts
 ---
 
-{% gtm body %}
+
 
 _Originally published on Medium, quite some time ago, [here](https://towardsdatascience.com/feature-selection-for-machine-learning-1-2-1597d9ccb54a)_
 

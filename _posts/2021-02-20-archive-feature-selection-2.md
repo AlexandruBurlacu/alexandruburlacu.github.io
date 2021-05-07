@@ -8,7 +8,7 @@ date:   2019-09-15 23:20:00 +0200
 categories: posts
 ---
 
-{% gtm body %}
+
 
 _Originally published on Medium, quite some time ago, [here](https://medium.com/@alexburlacu1996/feature-selection-for-machine-learning-2-2-1a5a5b822581)_
 

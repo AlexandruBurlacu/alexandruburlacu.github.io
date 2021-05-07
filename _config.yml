@@ -32,7 +32,6 @@ linkedin_username: alexandru-burlacu
 theme: minima
 plugins:
   - jekyll-feed
-  - jekyll-google-tag-manager
 
 # Exclude from processing.
 # The following items will not be processed, by default.
@@ -73,9 +72,7 @@ defaults:
       layout: default
 
 google_analytics: UA-193024289-1
-google:
-  tag_manager:
-    container_id: GTM-NC2L4Z6
+gtm_id: GTM-NC2L4Z6
 
 include:
   - _pages

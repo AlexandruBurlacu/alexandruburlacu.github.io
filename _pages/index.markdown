@@ -7,7 +7,7 @@ permalink: /
 title: Alex's ocasional blog posts
 ---
 
-{% gtm body %}
+
 
 ... less frequent than a blue moon event.
 
