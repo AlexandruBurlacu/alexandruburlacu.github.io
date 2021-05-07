@@ -32,7 +32,7 @@ linkedin_username: alexandru-burlacu
 theme: minima
 plugins:
   - jekyll-feed
-  # - jekyll-pdf-embed
+  - jekyll-google-tag-manager
 
 # Exclude from processing.
 # The following items will not be processed, by default.
