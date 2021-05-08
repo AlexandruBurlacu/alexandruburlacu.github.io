@@ -36,7 +36,11 @@ iex(3)> 2 = y
 ** (MatchError) no match of right hand side value: 4
 ```
 
-No big deal, right? Wrong! Because of this interesting property, we can match on composite data types, for example on lists. `[] = []` is a valid expression. But now, we can also write something like:
+No big deal, right? Wrong! Because of this interesting property, we can match on composite data types, for example on lists.
+
+### Lists
+
+In Elixir `[] = []` is a valid expression. But now, we can also write something like:
 
 ```elixir
 iex(0)> xs = [1, 2]
@@ -60,6 +64,8 @@ iex(2)> tail
 [2, 3, 4, 5]
 ```
 
+![](https://media.giphy.com/media/3o6wrzcyVdjrEC5UaY/giphy.gif)
+
 Aaaaand moreeee!!!!
 
 ```elixir
@@ -73,9 +79,12 @@ iex(3)> tail
 [3, 4, 5]
 ```
 
+![](https://media.giphy.com/media/26AHLBZUC1n53ozi8/giphy.gif)
+
 Noice.
 
----
+
+### Tuples
 
 Alright, so pattern matching can do interesting stuff. In Elixir it's actually so deep ingrained that it's used for example to signal whenever or not we have an error. For this, pattern matching on tuples is used.
 
@@ -135,7 +144,7 @@ defmodule FactorialM do
 end
 ```
 
-So now we can also define different paths for code execution depending whenver or not our guard(s) are satisfied or not. Guards in Elixir are fairly limited, and hard-ish to extend, for safety reasons. Guards should be pure functions, and even if you try to define them using macros, the compiler still can check whenever they can be distilled down to existing guards and logical operators or not. For more information, see [this documentation page](https://hexdocs.pm/elixir/master/patterns-and-guards.html).
+So now we can also define different paths for code execution depending whenver or not our guard(s) are satisfied or not. Guards in Elixir are fairly limited, and hard-ish to extend, for safety reasons. Guards should be pure functions, and even if you try to define them using macros, the compiler still can check whenever they can be distilled down to existing guards and logical operators or not. For more information, see [this documentation page](https://hexdocs.pm/elixir/master/patterns-and-guards.html) and [this little tutorial/blogpost](https://keathley.io/blog/elixir-guard-clauses.html) on how to write guards.
 
 Finally, we can combine pattern matching capabilities of functions with those of tuples and lists and implement fairly interesing things. For example a map function.
 
@@ -173,7 +182,7 @@ defmodule Stack do
 end
 ```
 
-# Interesting
+# It's getting more interesting
 
 Remember I told you pattern matching can be applied to composite data? Well, it's not just lists, it's also maps, and by extension structs, here:
 
@@ -207,7 +216,7 @@ iex(7)> st
 12
 ```
 
----
+### The as-pattern
 
 What if you need to match a function parameter with some specific structure, but you also need a reference to the entire value. Have you ever heard about **as-patterns**?
 
@@ -230,7 +239,13 @@ iex(0)> FairlyInteresting.merge [1, 3, 4, 7], [2, 2, 4, 8, 9]
 [1, 2, 2, 3, 4, 4, 7, 8, 9]
 ```
 
-Also, in Elixir it is possible to define partial functions. Mathematically speaking, a partial function is function defined only for some values, not for the whole set of values. For example, division is technically a partial function, because we can't define it when the divisor is 0. We can make a partial function explicit via pattern matching. And it also works for anonymous functions!
+![](https://media.giphy.com/media/gdKAVlnm3bmKI/giphy.gif)
+
+You still with us? Yes? Good, because the fun part haven't even started yet.
+
+### Partial functions
+
+Moving on, in Elixir it is possible to define partial functions. Mathematically speaking, a partial function is function defined only for some values, not for the whole set of values. For example, division is technically a partial function, because we can't define it when the divisor is 0. We can make a partial function explicit via pattern matching. And it also works for anonymous functions!
 
 ```elixir
 iex(0)> partial = fn 
@@ -243,10 +258,14 @@ iex(2)> partial.({:ok, 12})
 24
 ```
 
+### The pin (not my card's)
+
 Finally, no discussion about pattern matching in Elixir would be complete without the `^` operator. So what is it?
 It is commonly known as the pin operator, and it allows pattern matching without any assignment.
 
-Recall that normally, using `=` we perform both pattern matching __and__ asssignment. That is, we check whenever the left-hand side of the expression matches the right-hand side, and if so, all the variables in the expression get assigned to corresponding values. Ex. `[1, x, y] = [1, 2, 3] # x = 2, y = 3`.
+Recall that normally, using `=` we perform both pattern matching __and__ asssignment. That is, we check whenever the left-hand side of the expression matches the right-hand side, and if so, all the variables in the expression get assigned to corresponding values.
+
+Ex. `[1, x, y] = [1, 2, 3] # x = 2, y = 3`.
 
 So, using `^` we can pattern match, but not assign. Like this:
 
@@ -291,8 +310,10 @@ defmodule FairlyInteresting do
     @doc "CDF stands for cummulative density function"
     def kinda_cdf([], acc, _func), do: [%Measurement.CDF{value: acc}]
 
-    # So, now we have pattern matching on structs, inside lists, with as-patterns and guards, isn't it cool?
-    def kinda_cdf([%Measurement{prob: t, status: :ok}=head | tail], acc, func) when is_function(func, 2) do
+    # So, now we have pattern matching on structs, inside lists,
+    #  with as-patterns and guards, isn't it cool?
+    def kinda_cdf([%Measurement{prob: t, status: :ok}=head | tail], acc, func)
+        when is_function(func, 2) do
         [%Measurement.CDF{value: acc} | kinda_cdf(tail, func.(t, acc), func)]
     end
 
@@ -314,7 +335,8 @@ iex(0)> ms = [%Measurement{prob: 0.11}, %Measurement{prob: 0.07},
   %Measurement{prob: 0.17, status: :ok},
   %Measurement{prob: 0.08, status: :notok}
 ]
-iex(1)> FairlyInteresting.kinda_cdf ms, 0.0, &(&1+&2)                                                                [
+iex(1)> FairlyInteresting.kinda_cdf ms, 0.0, &(&1+&2)
+[
   %Measurement.CDF{value: 0.0},
   %Measurement.CDF{value: 0.11},
   %Measurement.CDF{value: 0.18},
@@ -323,16 +345,97 @@ iex(1)> FairlyInteresting.kinda_cdf ms, 0.0, &(&1+&2)                           
 ]
 ```
 
-https://hexdocs.pm/elixir/master/patterns-and-guards.html#custom-patterns-and-guards-expressions
-https://keathley.io/blog/elixir-guard-clauses.html
-https://docs.replit.com/repls/embed
+![](https://media.giphy.com/media/3o7aCZDlmQZLe4Q4V2/giphy.gif)
 
-3. Binary matching
+If you're like Patrick right now, I don't blame you, even I was a bit shocked while writing this.
 
-http://erlang.org/doc/programming_examples/bit_syntax.html
+And if that's not enough, we move onto the mindbending stuff. Bear with me.
 
 
-4. Text matching
+### Working with bits
+
+<!-- 
+https://docs.replit.com/repls/embed -->
+
+Something really cool that Erlang and Elixir can do is pattern maching on binary data. Isn't this amazing?
+
+Binary pattern matching in Erlang and Elixir exists because Erlang was initially developed to be used for network and telecom programming, that is implementing software for switches, routers and servers; developing protocols and doing this efficiently. Binary matching allows for very concise parsing of binary protocols.
+
+```
+    0                   1                   2                   3
+    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |          Source Port          |       Destination Port        |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                        Sequence Number                        |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   |                    Acknowledgment Number                      |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+   | Data |                                                        |
+   |Offset|                      data                              |
+   |      |                                                        |
+   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+                        Some Binary Header Format
+```
+
+```elixir
+iex(0)> source_port = <<12070 :: 16>>
+"/&"
+iex(1)> destination_port = <<80 :: 16>>
+<<0, 80>>
+iex(2)> seq_num = <<12_345_678 :: 32>>
+<<0, 188, 97, 78>>
+iex(3)> offset = <<0 :: 3>> # you can even specify bit-strings
+<<0::size(3)>>
+```
+
+Now let's assemble the packet.
+
+```elixir
+iex(4)> header = << source_port <> destination_port <> seq_num <> seq_num, offset :: bitstring>>
+<<47, 38, 0, 80, 0, 188, 97, 78, 0, 188, 97, 78, 0::size(3)>>
+iex(5)> packet = <<header :: bitstring, <<"and here comes the data">> >>
+<<47, 38, 0, 80, 0, 188, 97, 78, 0, 188, 97, 78, 12, 45, 204, 132, 13, 12, 174,
+  76, 164, 12, 109, 237, 172, 174, 100, 14, 141, 12, 164, 12, 140, 46, 140,
+  1::size(3)>>
+```
+
+Notice the strange way we assemble the packet. Because we are working on bit level, not even on byte level, sometimes concatenation (`<>`) isn't possible.
+That's why we use the list-like behaviour of `<<>>`, that is to say this form: `<< 12::3, <<1::2, <<3::3>> >> >>` will be equivalent to this `<<12::3, 1::2, 3::3>>`.
+
+Also we need to specify that we're deling with a `bitstring` not a sequence of `bytes`.
+
+And now we match.
+
+```elixir
+iex(6)> <<_sp :: 16, _dp :: 16, _seq_num :: 32, ack_num :: 32, _offset :: 3, data :: bitstring>> = packet
+<<47, 38, 0, 80, 0, 188, 97, 78, 0, 188, 97, 78, 12, 45, 204, 132, 13, 12, 174,
+  76, 164, 12, 109, 237, 172, 174, 100, 14, 141, 12, 164, 12, 140, 46, 140,
+  1::size(3)>>
+iex(7)> data
+"and here comes the data"
+```
+
+<!-- ```elixir
+# https://hexdocs.pm/elixir/Kernel.SpecialForms.html#%3C%3C%3E%3E/1
+# http://erlang.org/doc/programming_examples/bit_syntax.html
+# https://bgmarx.com/2015/06/12/binary-pattern-matching-with-elixir/
+# https://zohaib.me/binary-pattern-matching-in-elixir/
+# https://dev.to/l1x/matching-binary-patterns-11kh
+``` -->
+
+Nice, but can we use `^` for more powerful matching?
+
+```elixir
+iex(5)> <<^i, 32, ^have, 32, ^a, "n ", apple>> = "I have an apple"
+** (MatchError) no match of right hand side value: "I have an apple"
+```
+
+Now, this is one thing you can't do. You can't combine `<<>>` and `^` operators. Shame. But it's useful never the less, you'll see in a moment.
+
+### A bit about strings
+
+In Elixir you can even match text. Nice, isn't it? But text is an array of bytes, so, it's pretty much obvious why can we do it.
 
 ```elixir
 iex(0)> partial = fn 
@@ -343,29 +446,40 @@ iex(0)> partial = fn
 iex(1)> 
 iex(2)> partial = fn # won't compile
 ...(2)>     {:ok, "he" <> v} -> v
-...(2)>     {:still_ok, v <> "ou"} -> v
+...(2)>     {:still_ok, v <> "ou"} -> v # because of this
 ...(2)> _ -> :nope
 ...(2)> end
 ** (ArgumentError) the left argument of <> operator inside a match should always be a literal binary because its size can't be verified.
 ```
 
-TK
+Well, the capability is very limited, because potentially you could have a very long string, and checking it's end potentially could be a very expensive operation.
+There's a way tho.
+
+Back to bit sequences. So, because of the Erlang legacy, strings can be treated as sequences of characters, which in turn are just sequences of short unsigned integers. So, if you know the size of the matchable subsequence, you could potentially match even in the middle of the string.
 
 Just in case someone needed. If you need to match on the part of the string that is in the known middle and you aware of its length then you can use binary matching:
 ```elixir
-iex(1)> <<"https://", locale::binary-size(2), ".wikipedia.com" >> = "https://en.wikipedia.com" 
-"https://en.wikipedia.com"
-iex(2)> locale
-"en"
+iex(1)> <<"I ", v::binary-size(9), "ing">> = "I got a string"
+iex(2)> v
+"got a str"
 ```
-TK
 
+Strings and bits and bytes and pattern matching in Elixir is a huge topic, so don't worry if you're confused at this moment. You could check [this](https://medium.com/blackode/playing-with-elixir-binaries-strings-dd01a40039d5) post about exactly that, if my ramblings didn't make sense ;)
 
 # Epilogue
+
+I hope you like it. I don't know about you, but I really like to discover weird powerful things like all the stuff above. I mean, lists and tuples is fine, but to be able to pattern match on bits, that's some Vodoo magic in here.
 
 So yeah, that's it for now. I might write some more about advanced Elixir stuff, most likely related to the actor model. Let's hope it won't take as long as usual.
 
 If you’re reading this, I’d like to thank you and hope all of the above written will be of great help for you, as it was for me. Let me know what are your thoughs about it via Twitter, for now, until I plug in some form of comment section. Your feedback is valuable for me.
 
-Oh, yeah, the answers:
-1. **It will run until killed by the OS, because 1 is not 1.0 in Elixir, nor 0.0 is 0**.
+1. Oh, yeah, the answer **It will run until killed by the OS, because 1 is not 1.0 in Elixir, nor 0.0 is 0**.
+
+<!-- https://replit.com/@AlexandruBurlac/ElixirPatternMatchingMagic -->
+
+# P.S.
+
+For your efforts, I'd like to reward you with the possibility to run all these examples in a sandbox (`elixir <filename.exs>`). Knock yourself out ;)
+
+<iframe frameborder="0" width="100%" height="700px" src="https://replit.com/@AlexandruBurlac/ElixirPatternMatchingMagic?lite=true"></iframe>
