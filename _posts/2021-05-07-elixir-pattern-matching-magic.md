@@ -11,7 +11,7 @@ permalink: /posts/2021-05-07-elixir-pattern-matching-magic
 
 # Prologue
 
-So, a while ago, while preparing for an offtopic lecture about polymorphism and type systems, I recalled an interesting concept called _multiple dispatch_. I won't go into details of what it is, so if you're interested, check these links: [1](http://matthewrocklin.com/blog/work/2014/02/25/Multiple-Dispatch), [2](https://en.wikipedia.org/wiki/Multiple_dispatch), [3](https://eli.thegreenplace.net/2016/a-polyglots-guide-to-multiple-dispatch/).
+So, a while ago, while preparing for an off-topic lecture about polymorphism and type systems, I recalled an interesting concept called _multiple dispatch_. I won't go into details of what it is, so if you're interested, check these links: [1](http://matthewrocklin.com/blog/work/2014/02/25/Multiple-Dispatch), [2](https://en.wikipedia.org/wiki/Multiple_dispatch), [3](https://eli.thegreenplace.net/2016/a-polyglots-guide-to-multiple-dispatch/).
 Anyway, while brushing up my knowledge about multiple dispatch, I found an even more powerful technique, called [_predicate dispatch_](https://en.wikipedia.org/wiki/Predicate_dispatch).
 
 To me, it seemed a lot like what is possible through pattern matching in functional languages. After some research, I asked on SO whenever my assumption was right, [here](https://stackoverflow.com/q/66863443/5428334). TL;DR: no answer as of today(2021/05/07).
@@ -469,7 +469,7 @@ Strings and bits and bytes and pattern matching in Elixir is a huge topic, so do
 
 # Epilogue
 
-I hope you like it. I don't know about you, but I like to discover weird powerful things like all the stuff above. I mean, lists and tuples are fine, but to be able to pattern match on bits, that's some Vodoo magic in here.
+I hope you like it. I don't know about you, but I like to discover weird powerful things like all the stuff above. I mean, lists and tuples are fine, but to be able to pattern match on bits, that's some Voodoo magic in here.
 
 So yeah, that's it for now. I might write some more about advanced Elixir stuff, most likely related to the actor model. Let's hope it won't take as long as usual.
 
