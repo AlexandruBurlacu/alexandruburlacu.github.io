@@ -1,0 +1,371 @@
+---
+title: Elixir pattern matching magic
+published: true
+description: Elixir, as a true functional language, allows for some impressive feats using pattern matching. Let's see some of this magic.
+tags: functional, elixir
+layout: post
+date:   2021-05-07 22:12:00 +0100
+categories: posts
+---
+
+# Prologue
+
+So, a while ago, while preparing for an offtopic lecture about polymorphism and type systems, I recalled an interesting concept called _multiple dispatch_. I won't go into details of what it is, so if you're interested, check these links: [1](http://matthewrocklin.com/blog/work/2014/02/25/Multiple-Dispatch), [2](https://en.wikipedia.org/wiki/Multiple_dispatch), [3](https://eli.thegreenplace.net/2016/a-polyglots-guide-to-multiple-dispatch/).
+Anyway, while brushing up my knowledge about multiple dispatch, I found an even more powerful technique, called [_predicate dispatch_](https://en.wikipedia.org/wiki/Predicate_dispatch).
+
+To me, it seemed a lot like what is possible through pattern matching in functional languages. After some research, I asked on SO whenever my assumption was right, [here](https://stackoverflow.com/q/66863443/5428334). TL;DR: no answer as of today(2021/05/07).
+
+Why am I telling you all this? Because that's how I decided to write an article about how cool pattern matching is, specifically in Elixir, and even if it's not the same as predicate dispatch, it's pretty damn powerful nevertheless.
+
+So let's get started!
+
+# Basics
+
+I will quickly go through the basics of Elixir pattern matching, before diving into real neat stuff.
+
+In Elixir `=` doesn't just assign some value to some variable, it actually matches the left-hand side of the expression with the right hand side. So as a result, doing something like the code below is entirely possible.
+
+```elixir
+iex(0)> x = 2
+2
+iex(1)> y = 4
+4
+iex(2)> 4 = y
+4
+iex(3)> 2 = y
+** (MatchError) no match of right hand side value: 4
+```
+
+No big deal, right? Wrong! Because of this interesting property, we can match on composite data types, for example on lists. `[] = []` is a valid expression. But now, we can also write something like:
+
+```elixir
+iex(0)> xs = [1, 2]
+[1, 2]
+iex(1)> [x, y] = xs
+[1, 2]
+iex(2)> x
+1
+iex(3)> y
+2
+```
+
+Starts to get interesting, eh? But wait, there's more!
+
+```elixir
+iex(0)> [head | tail] = [1, 2, 3, 4, 5]
+[1, 2, 3, 4, 5]
+iex(1)> head
+1
+iex(2)> tail
+[2, 3, 4, 5]
+```
+
+Aaaaand moreeee!!!!
+
+```elixir
+iex(0)> [head, next_to_it | tail] = [1, 2, 3, 4, 5]
+[1, 2, 3, 4, 5]
+iex(1)> head
+1
+iex(2)> next_to_it
+2
+iex(3)> tail
+[3, 4, 5]
+```
+
+Noice.
+
+---
+
+Alright, so pattern matching can do interesting stuff. In Elixir it's actually so deep ingrained that it's used for example to signal whenever or not we have an error. For this, pattern matching on tuples is used.
+
+```elixir
+iex(0)> {:ok, value} = SomeModule.some_function()
+{:ok, "the value"}
+iex(1)> # If the function returns something else than {:ok, value}
+iex(2)> {:ok, value} = SomeModule.some_function()
+** (MatchError) no match of right hand side value: {:ok, value}
+```
+
+Elixir has a special control structure to enable more flexible usage of pattern matching, it's called `case`.
+
+```elixir
+iex(0)> x = {:ok, "is fine"}
+iex(1)> case x do
+...(1)>   {:ok, v} -> v
+...(1)>   _ -> "nothing at all"
+...(1)> end
+"is fine"
+iex(2)> x = {:err, "not ok"}
+iex(3)> case x do
+...(3)>   {:ok, v} -> v
+...(3)>   _ -> "nothing at all"
+...(3)> end
+"nothing at all"
+```
+
+This concludes the basics part, so now we're gonna dive into more interesting stuff.
+
+# Functions
+
+Elixir can use pattern matching even in function definitions, like in Haskell. And by the way, that's one of the most performant options, usually.
+
+```elixir
+defmodule FactorialM do
+    def factorial(0), do: 1
+    def factorial(1), do: 1
+    def factorial(x) do
+        x * factorial(x-1)
+    end
+end
+```
+
+Can you spot a problem with this function? Well, what if we pass a floating point value instead of an integer? Think what would happen, and compare with the answer<sup>1</sup> at the end of the article.
+
+How can you fix it? Enter guards.
+
+```elixir
+defmodule FactorialM do
+    def factorial(0), do: 1
+    def factorial(1), do: 1
+    def factorial(x) when is_integer(x) do
+        x * factorial(x-1)
+    end
+    def factorial(_), do: raise RuntimeError, "Input should be integer"
+end
+```
+
+So now we can also define different paths for code execution depending whenver or not our guard(s) are satisfied or not. Guards in Elixir are fairly limited, and hard-ish to extend, for safety reasons. Guards should be pure functions, and even if you try to define them using macros, the compiler still can check whenever they can be distilled down to existing guards and logical operators or not. For more information, see [this documentation page](https://hexdocs.pm/elixir/master/patterns-and-guards.html).
+
+Finally, we can combine pattern matching capabilities of functions with those of tuples and lists and implement fairly interesing things. For example a map function.
+
+```elixir
+defmodule FairlyInteresting do
+    def map([], _func), do: []
+    def map([head | tail], func) when is_function(func) do
+        [func.(head) | map(tail, func)]
+    end
+end
+```
+
+Also, using pattern matching on tuples in function prototypes is the go-to way of using Elixir's `GenServer`, `GenStage` and other `Gen`-things. This pattern is inherited from Erlang's OTP, and is pretty beutifull, if you ask me.
+
+```elixir
+defmodule Stack do
+    @moduledoc """Taken from: https://hexdocs.pm/elixir/master/GenServer.html"""
+    use GenServer
+
+    # Callbacks
+    @impl true
+    def init(stack) do
+        {:ok, stack}
+    end
+
+    @impl true
+    def handle_call(:pop, _from, [head | tail]) do
+        {:reply, head, tail}
+    end
+
+    @impl true
+    def handle_cast({:push, element}, state) do
+        {:noreply, [element | state]}
+    end
+end
+```
+
+# Interesting
+
+Remember I told you pattern matching can be applied to composite data? Well, it's not just lists, it's also maps, and by extension structs, here:
+
+```elixir
+iex(0)> kv = %{key: :value}
+{key: :value}
+iex(1)> %{key: data} = kv
+{key: :value}
+iex(2)> data
+:value
+```
+
+And with structs:
+
+```elixir
+iex(0)> defmodule AStruct do
+...(0)>     defstruct [:state]
+...(0)> end
+# I'll omit this for brevety
+iex(1)> s = %AStruct{state: 12}
+%AStruct{state: 12}
+iex(3)> s.state
+12
+iex(4)> %{state: st} = s # recall, a struct is just syntactic sugar for a map
+%AStruct{state: 12}
+iex(5)> st
+12
+iex(6)> %AStruct{state: st} = s
+%AStruct{state: 12}
+iex(7)> st
+12
+```
+
+---
+
+What if you need to match a function parameter with some specific structure, but you also need a reference to the entire value. Have you ever heard about **as-patterns**?
+
+```elixir
+defmodule FairlyInteresting do
+    def merge([], xs), do: xs
+    def merge(xs, []), do: xs
+    def merge(first=[x|xs], second=[y|ys]) do
+        if x < y do
+            [x | merge(xs, second)]
+        else
+            [y | merge(ys, first)]
+        end
+    end
+end
+
+# ...
+
+iex(0)> FairlyInteresting.merge [1, 3, 4, 7], [2, 2, 4, 8, 9]
+[1, 2, 2, 3, 4, 4, 7, 8, 9]
+```
+
+Also, in Elixir it is possible to define partial functions. Mathematically speaking, a partial function is function defined only for some values, not for the whole set of values. For example, division is technically a partial function, because we can't define it when the divisor is 0. We can make a partial function explicit via pattern matching. And it also works for anonymous functions!
+
+```elixir
+iex(0)> partial = fn 
+...(0)>     {:ok, value} when is_number(value) -> value * 2
+...(0)>     {:notok, _} -> :i_mean_its_not_ok
+...(0)> end
+iex(1)> partial.(12)
+# raises a FunctionClauseError
+iex(2)> partial.({:ok, 12})
+24
+```
+
+Finally, no discussion about pattern matching in Elixir would be complete without the `^` operator. So what is it?
+It is commonly known as the pin operator, and it allows pattern matching without any assignment.
+
+Recall that normally, using `=` we perform both pattern matching __and__ asssignment. That is, we check whenever the left-hand side of the expression matches the right-hand side, and if so, all the variables in the expression get assigned to corresponding values. Ex. `[1, x, y] = [1, 2, 3] # x = 2, y = 3`.
+
+So, using `^` we can pattern match, but not assign. Like this:
+
+```elixir
+iex(0)> x = 2
+2
+iex(1)> ^x = 3
+** (MatchError) no match of right hand side value: 3
+iex(2)> ^x = 2
+2
+```
+
+You might ask, where would I use this? Well, what about deciding in runtime what matching criteria are you interested in. For example:
+
+```elixir
+iex(0)> status_of_interest = :wip # imagine that it is decided while the program is running
+iex(1)> # maybe can even change throughout the program lifetime
+iex(2)> partial = fn 
+...(2)>     {^status_of_interest, value} when is_number(value) -> value * 2
+...(2)>     {:notok, _} -> :i_mean_its_not_ok
+...(2)> end
+iex(3)> partial.({:ok, 12})
+# raises a FunctionClauseError
+iex(4)> partial.({:wip, 11})
+22
+```
+
+# Leveling up
+
+Now we've seen enough, let's combine everything!
+
+```elixir
+defmodule Measurement do
+    defstruct [:prob, status: :ok]
+end
+
+defmodule Measurement.CDF do
+    defstruct [:value]
+end
+
+defmodule FairlyInteresting do
+    @doc "CDF stands for cummulative density function"
+    def kinda_cdf([], acc, _func), do: [%Measurement.CDF{value: acc}]
+
+    # So, now we have pattern matching on structs, inside lists, with as-patterns and guards, isn't it cool?
+    def kinda_cdf([%Measurement{prob: t, status: :ok}=head | tail], acc, func) when is_function(func, 2) do
+        [%Measurement.CDF{value: acc} | kinda_cdf(tail, func.(t, acc), func)]
+    end
+
+    def kinda_cdf([_head | tail], acc, func) when is_function(func, 2) do
+        kinda_cdf(tail, acc, func)
+    end
+end
+
+# ...
+
+iex(0)> ms = [%Measurement{prob: 0.11}, %Measurement{prob: 0.07},
+...(0)>       %Measurement{prob: 0.31, status: :notok}, %Measurement{prob: 0.21},
+...(0)>       %Measurement{prob: 0.17, status: :ok}, %Measurement{prob: 0.08, status: :notok}]
+[
+  %Measurement{prob: 0.11, status: :ok},
+  %Measurement{prob: 0.07, status: :ok},
+  %Measurement{prob: 0.31, status: :notok},
+  %Measurement{prob: 0.21, status: :ok},
+  %Measurement{prob: 0.17, status: :ok},
+  %Measurement{prob: 0.08, status: :notok}
+]
+iex(1)> FairlyInteresting.kinda_cdf ms, 0.0, &(&1+&2)                                                                [
+  %Measurement.CDF{value: 0.0},
+  %Measurement.CDF{value: 0.11},
+  %Measurement.CDF{value: 0.18},
+  %Measurement.CDF{value: 0.39},
+  %Measurement.CDF{value: 0.56}
+]
+```
+
+https://hexdocs.pm/elixir/master/patterns-and-guards.html#custom-patterns-and-guards-expressions
+https://keathley.io/blog/elixir-guard-clauses.html
+https://docs.replit.com/repls/embed
+
+3. Binary matching
+
+http://erlang.org/doc/programming_examples/bit_syntax.html
+
+
+4. Text matching
+
+```elixir
+iex(0)> partial = fn 
+...(0)>     {:ok, "he" <> v} -> v
+...(0)>     {:still_ok, v <> "ou"} -> v
+...(0)>     _ -> :nope
+...(0)> end
+iex(1)> 
+iex(2)> partial = fn # won't compile
+...(2)>     {:ok, "he" <> v} -> v
+...(2)>     {:still_ok, v <> "ou"} -> v
+...(2)> _ -> :nope
+...(2)> end
+** (ArgumentError) the left argument of <> operator inside a match should always be a literal binary because its size can't be verified.
+```
+
+TK
+
+Just in case someone needed. If you need to match on the part of the string that is in the known middle and you aware of its length then you can use binary matching:
+```elixir
+iex(1)> <<"https://", locale::binary-size(2), ".wikipedia.com" >> = "https://en.wikipedia.com" 
+"https://en.wikipedia.com"
+iex(2)> locale
+"en"
+```
+TK
+
+
+# Epilogue
+
+So yeah, that's it for now. I might write some more about advanced Elixir stuff, most likely related to the actor model. Let's hope it won't take as long as usual.
+
+If you’re reading this, I’d like to thank you and hope all of the above written will be of great help for you, as it was for me. Let me know what are your thoughs about it via Twitter, for now, until I plug in some form of comment section. Your feedback is valuable for me.
+
+Oh, yeah, the answers:
+1. **It will run until killed by the OS, because 1 is not 1.0 in Elixir, nor 0.0 is 0**.
