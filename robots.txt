@@ -1,0 +1,4 @@
+User-agent: *
+Sitemap: https://alexandruburlacu.github.io/sitemap.xml
+Disallow: /_layouts/
+Disallow: /assets/

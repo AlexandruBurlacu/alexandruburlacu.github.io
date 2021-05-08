@@ -6,6 +6,7 @@ tags: scikit-learn, ai, machinelearning
 layout: post
 date:   2019-09-08 23:20:00 +0200
 categories: posts
+permalink: /posts/2021-02-20-archive-feature-selection-1
 ---
 
 

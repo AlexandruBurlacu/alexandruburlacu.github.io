@@ -6,6 +6,7 @@ tags: deeplearning, keras, ai, machinelearning
 layout: post
 date:   2018-05-02 23:20:00 +0200
 categories: posts
+permalink: /posts/2021-02-20-archive-speeding-up-convolutions
 ---
 
 
