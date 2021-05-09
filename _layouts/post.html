@@ -15,6 +15,15 @@ layout: default
       {%- if page.author -%}
         • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">{{ page.author }}</span></span>
       {%- endif -%}</p>
+
+      {% capture read_time %}
+        {{ page.content | number_of_words | divided_by: 200 }}
+      {% endcapture %}
+      {% if read_time != '0' %}
+        {{ read_time }}
+      {% else %}
+        1
+      {% endif %} min read
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">

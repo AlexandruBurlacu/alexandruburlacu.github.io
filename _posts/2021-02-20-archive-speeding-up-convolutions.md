@@ -105,7 +105,8 @@ conv = Conv2D(128, (3, 3), ...)(conv)
 Before diving into this method, be aware that it’s extremely dependent upon how the Separable Convolutions where implemented in a given framework. As far as I am concerned, TensorFlow might have some specific optimizations for this method while for other backends, like Caffe, CNTK or PyTorch it is unclear.
 
 ![image](https://cdn-images-1.medium.com/max/716/1*odJXfzodb02HDnKy27yfpQ.png)
-Vincent Vanhoucke, April 2014, “Learning Visual Representations at Scale”
+
+_Vincent Vanhoucke, April 2014, “Learning Visual Representations at Scale”_
 
 The idea is that instead of convolving jointly across all channels of an image, you run a separate 2D convolution on each channel with a depth of `channel_multiplier`. The `in_channels * channel_multiplier` intermediate channels get concatenated together, and mapped to out_channels using a 1x1 convolution.[5] This way one ends up with significantly fewer parameters to train.[2]
 
@@ -123,7 +124,8 @@ It’s not so simple tho. Beware that Separable Convolutions sometimes aren’t 
 ---
 
 ![image](https://cdn-images-1.medium.com/max/716/1*FjzcTRoe-R680V0hOwYo5A.png)
-Source: V. Lebedev et al, Speeding-up Convolutional Neural Networks Using Fine-tuned CP-Decomposition
+
+_Source: V. Lebedev et al, Speeding-up Convolutional Neural Networks Using Fine-tuned CP-Decomposition_
 
 ## CP-Decomposition and Advanced Methods
 

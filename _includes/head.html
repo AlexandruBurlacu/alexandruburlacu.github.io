@@ -2,6 +2,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/turbolinks/5.2.0/turbolinks.js"></script>
     {%- seo -%}
     <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
     {%- feed_meta -%}
@@ -14,5 +15,18 @@
       j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
       })(window,document,'script','dataLayer','{{ site.gtm_id }}');</script>
+
+
+  <!-- OG: spacing-unit = 30px content-width = 800px -->
+  <style type="text/css" media="screen">
+    .wrapper {
+      max-width: -webkit-calc(960px - (25px * 1));
+      max-width: calc(960px - (25px * 1));
+      margin-right: auto;
+      margin-left: auto;
+      padding-right: 25px;
+      padding-left: 25px;
+    }
+  </style>
 
   </head>

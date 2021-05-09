@@ -21,7 +21,7 @@
 title: Finding title...
 email: alexburlacu96@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
-  A tentative blog about hard and misc things related to data science, machine learning, distributed systems and many more hard things, all originating in computer science.
+  A tentative blog about hard and misc things related to data science, machine learning, distributed systems and more, all originating in computer science.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://alexandruburlacu.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: alexburlacu1996
@@ -30,6 +30,7 @@ linkedin_username: alexandru-burlacu
 
 # Build settings
 theme: minima
+# show_excerpts: true
 plugins:
   - jekyll-feed
 
@@ -74,8 +75,9 @@ defaults:
 google_analytics: UA-193024289-1
 gtm_id: GTM-NC2L4Z6
 
+minima:
+  skin: dark
+
 include:
   - _pages
   - _data
-  - _layouts
-
