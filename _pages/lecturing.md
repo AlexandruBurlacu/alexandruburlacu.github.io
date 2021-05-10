@@ -11,9 +11,3 @@ I was lecturing specifically at the anglophone branch, called FAF. It's consider
 All courses were significantly updated, but Real-Time Programming is a different topic entirely. The Real-Time Programming course didn't exist in the form I was teaching it, so I made it from scratch. Originally it was a course about event-driven programming in Windows, the Win32 API mind you. My version of Real-Time Programming is about asynchronous (and synchronous, a bit) message-driven communication, actor model, message brokers, and a bit about reactive programming. Real-Time referring to soft real-time constraints usually in place for such systems.
 
 Being an Open Source believer, I'm now sharing my lecture slides. I authored these, so no copyright/IP infringements here.
-
-<!-- embed NP -->
-
-<!-- embed RTP -->
-
-<!-- embed Dist.Sys -->
