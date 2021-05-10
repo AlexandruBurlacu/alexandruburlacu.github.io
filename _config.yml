@@ -18,7 +18,7 @@
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
 
-title: Finding title...
+title: Alex's ocasional blog posts
 email: alexburlacu96@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   A tentative blog about hard and misc things related to data science, machine learning, distributed systems and more, all originating in computer science.

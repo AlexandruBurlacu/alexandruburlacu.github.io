@@ -4,7 +4,6 @@
 
 layout: home
 permalink: /
-title: Alex's ocasional blog posts
 ---
 
 
