@@ -18,6 +18,8 @@ A good question, indeed.
 
 A more seasoned engineer might say: _**I will use logs!!!**_ But what if I tell you, logs are only the begging?
 
+> \[Disclarimer Time\] This article is not about some concrete technology, framework, or library, although it references some of these. It's more of an overview/tips about what logging/tracing/et al are and how to approach these when designing and operating software systems. The information here is based mostly from my own experience, but also from information available in papers and industry blog posts. You might need to google some stuff while/after reading it, especially if you've never operated a system running in production.
+
 # Act 1: I'll set up logs, alright...
 
 So, what exactly is a log?
@@ -190,7 +192,7 @@ There are some existing Open Source tools with great support, like [Jaeger](http
 
 A common architecture for tracing subsystems is a combination of a sidecar, collector, storage, and "presenter" components, not to mention the client library. When it comes to using tracing in a serverless setup it gets tricky, one solution would be to bypass the sidecar and send data directly to the collector, [but you will lose some nice features](https://www.jaegertracing.io/docs/1.22/faq/#do-i-need-to-run-jaeger-agent).
 
-Tracing, in general, is huuuuge topic, and covering it would require at least one more long-read article. That's why, for more information, I'd like to point you towards [these](https://static.googleusercontent.com/media/research.google.com/en//archive/papers/dapper-2010-1.pdf) two [articles](https://www.pdl.cmu.edu/PDL-FTP/SelfStar/CMU-PDL-14-102.pdf) and [this post from Uber](https://eng.uber.com/distributed-tracing/).
+Tracing, in general, is huuuuge topic, and covering it would require at least one more long-read article. That's why, for more information, I'd like to point you towards [these](https://static.googleusercontent.com/media/research.google.com/en//archive/papers/dapper-2010-1.pdf) two [articles](https://www.pdl.cmu.edu/PDL-FTP/SelfStar/CMU-PDL-14-102.pdf) and [this post from Uber](https://eng.uber.com/distributed-tracing/). In these you'll find more "war stories" on how such systems where implemented (first article and the post from Uber) and also such important topics as trace sampling strategies and trace visualizations (second article).
 
 
 # Final act: Welcome to observability!!!
