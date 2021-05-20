@@ -6,7 +6,8 @@ tags: logging, logs, tracing, traces, observability, telemetry, monitoring, aler
 layout: post
 date:   2021-05-19 00:10:00 +0200
 categories: posts
-permalink: /posts/2021-05-17-logs-traces-how-to
+permalink: /posts/2021-05-20-logs-traces-how-to
+comments: true
 ---
 
 

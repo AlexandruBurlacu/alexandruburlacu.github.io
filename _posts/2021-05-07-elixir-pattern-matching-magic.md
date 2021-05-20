@@ -7,6 +7,7 @@ layout: post
 date:   2021-05-07 22:12:00 +0100
 categories: posts
 permalink: /posts/2021-05-07-elixir-pattern-matching-magic
+comments: true
 ---
 
 # Prologue

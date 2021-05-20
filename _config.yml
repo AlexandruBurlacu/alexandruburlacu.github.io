@@ -75,6 +75,9 @@ defaults:
 google_analytics: UA-193024289-1
 gtm_id: GTM-NC2L4Z6
 
+disqus:
+  shortname: alexandruburlacu-blog
+
 minima:
   skin: dark
 
