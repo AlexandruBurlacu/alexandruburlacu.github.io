@@ -19,7 +19,7 @@ A good question, indeed.
 
 A more seasoned engineer might say: _**I will use logs!!!**_ But what if I tell you, logs are only the begging?
 
-> \[Disclarimer Time\] This article is not about some concrete technology, framework, or library, although it references some of these. It's more of an overview/tips about what logging/tracing/et al are and how to approach these when designing and operating software systems. The information here is based mostly from my own experience, but also from information available in papers and industry blog posts. You might need to google some stuff while/after reading it, especially if you've never operated a system running in production.
+> \[Disclaimer Time\] This article is not about some concrete technology, framework, or library, although it references some of these. It's more of an overview/tips about what logging/tracing/et al are and how to approach these when designing and operating software systems. The information here is based mostly from my own experience, but also from information available in papers and industry blog posts. You might need to google some stuff while/after reading it, especially if you've never operated a system running in production.
 
 # Act 1: I'll set up logs, alright...
 
@@ -52,7 +52,7 @@ DEBUG: Program setup/initialization info, possibly memory or performance informa
 *: more on that later
 ```
 
-- Thy logs must be **filtrable**: logs are meant to be analyzed. Make them as searchable as possible. Consider formatting them as JSON documents, and don’t abuse nesting.
+- Thy logs must be **filterable**: logs are meant to be analyzed. Make them as searchable as possible. Consider formatting them as JSON documents, and don’t abuse nesting.
 
 Why not? If the JSON is too nested, it becomes hard to search/analyze, defying its purpose.
 
