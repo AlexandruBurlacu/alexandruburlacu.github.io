@@ -12,13 +12,13 @@ comments: true
 
 # Prologue
 
-This will be a small post, but an interesting one nevertheless.
+This will be a pretty small post, but an interesting one nevertheless.
 
-We all know, or at least heard about the K-Means clustering algorithm. I remember when I first found out about it, it seemed fascinating. An unsupervised learning algorithm that is fairly intuitive and mostly works well. But then in time, the interest faded away, I started to understand its limitations, among which is the spherical cluster prior, its linear nature, and what I found especially annoying in EDA scenarios, the fact that it doesn't find the optimal number of clusters by itself. And then, a couple of years ago, I found out about a few neat tricks of how to use K-Means. So here it goes.
+K-Means is an elegant algorithm. It's easy to understand (make random points, move them iteratively to become centers of some existing clusters) and works well in practice. When I first learned about it I recall being fascinated. It was elegant. But then in time, the interest faded away, I was noticing numerous limitations, among which is the spherical cluster prior, its linear nature, and what I found especially annoying in EDA scenarios, the fact that it doesn’t find the optimal number of clusters by itself, so you need to tinker with this parameter too. And then, a couple of years ago, I found out about a few neat tricks of how to use K-Means. So here it goes.
 
 # The first trick
 
-First, the baseline. I'll use mostly the breast cancer dataset, but you can play around with any other dataset.
+First, we need to establish a baseline. I'll use mostly the breast cancer dataset, but you can play around with any other dataset.
 
 ```python
 from sklearn.cluster import KMeans
@@ -36,7 +36,7 @@ svm = LinearSVC(random_state=17)
 svm.fit(X_train, y_train)
 svm.score(X_test, y_test) # should be ~0.93
 ```
-So, what's the trick? 
+So, what's the this neat trick that reignited my interest for K-Means?
 
 > __*K-Means can be used as a source of new features.*__ 
 
@@ -378,5 +378,5 @@ Finally, if you’re reading this, thank you! If you want to leave some feedback
 - [A more in-depth explanation of K-Means](https://jakevdp.github.io/PythonDataScienceHandbook/05.11-k-means.html)
 - [A research paper that uses K-Means for an efficient SVM](http://www.jcomputers.us/vol8/jcp0810-25.pdf)
 
-P.S. I believe you noticed all these `random_state`s in the code. If you're wondering why I added these, it's to make the code samples reproducible. Because frequently tutorials don't do this and it leaves space for cherry-picking, where the author presents only the best results, and when trying to replicate these, the reader either can't or it takes a lot of time. But know this, you can play around with the values of `random_state` and get widely different results. For example, when running the snippet with original features and distances to the 3 centroids, the one with a 0.727 score, with a random seed of 41 instead of 17, you can get the accuracy score of 0.944. So yeah, `random_state` or however else the random seed is called in your framework of choice is an important aspect to keep in mind, especially when doing research.
+__P.S.__ I believe you noticed all these `random_state`s in the code. If you're wondering why I added these, it's to make the code samples reproducible. Because frequently tutorials don't do this and it leaves space for cherry-picking, where the author presents only the best results, and when trying to replicate these, the reader either can't or it takes a lot of time. But know this, you can play around with the values of `random_state` and get widely different results. For example, when running the snippet with original features and distances to the 3 centroids, the one with a 0.727 score, with a random seed of 41 instead of 17, you can get the accuracy score of 0.944. So yeah, `random_state` or however else the random seed is called in your framework of choice is an important aspect to keep in mind, especially when doing research.
 
