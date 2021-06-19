@@ -14,7 +14,7 @@ comments: true
 
 This will be a pretty small post, but an interesting one nevertheless.
 
-K-Means is an elegant algorithm. It's easy to understand (make random points, move them iteratively to become centers of some existing clusters) and works well in practice. When I first learned about it I recall being fascinated. It was elegant. But then in time, the interest faded away, I was noticing numerous limitations, among which is the spherical cluster prior, its linear nature, and what I found especially annoying in EDA scenarios, the fact that it doesn’t find the optimal number of clusters by itself, so you need to tinker with this parameter too. And then, a couple of years ago, I found out about a few neat tricks of how to use K-Means. So here it goes.
+K-Means is an elegant algorithm. It's easy to understand (make random points, move them iteratively to become centers of some existing clusters) and works well in practice. When I first learned about it, I recall being fascinated. It was elegant. But then in time, the interest faded away, I was noticing numerous limitations, among which is the spherical cluster prior, its linear nature, and what I found especially annoying in EDA scenarios, the fact that it doesn’t find the optimal number of clusters by itself, so you need to tinker with this parameter too. And then, a couple of years ago, I found out about a few neat tricks on how to use K-Means. So here it goes.
 
 # The first trick
 
@@ -36,13 +36,13 @@ svm = LinearSVC(random_state=17)
 svm.fit(X_train, y_train)
 svm.score(X_test, y_test) # should be ~0.93
 ```
-So, what's the this neat trick that reignited my interest for K-Means?
+So, what's this neat trick that reignited my interest for K-Means?
 
 > __*K-Means can be used as a source of new features.*__ 
 
 How, you might ask? Well, K-Means is a clustering algorithm, right? You can add the inferred cluster as a new categorical feature.
 
-Now let's try this.
+Now, let's try this.
 
 ```python
 # imports from the example above
@@ -138,9 +138,9 @@ svm.fit(X_clusters, y_train)
 svm.score(kmeans.transform(X_test), y_test) # should be ~0.944
 ```
 
-Well, not as good, but pretty decent. In practice, the greatest benefit of this approach is when you have a lot of data. Also predictive performance-wise your mileage may vary, I, for one, had run this method with `n_clusters=1000` and it worked better than only with a few clusters.
+Well, not as good, but pretty decent. In practice, the greatest benefit of this approach is when you have a lot of data. Also, predictive performance-wise your mileage may vary, I, for one, had run this method with `n_clusters=1000` and it worked better than only with a few clusters.
 
-SVMs are known to be slow to train on big datasets. Impossibly slow. Been there, done that. That's why for example there are numerous techniques to approximate the kernel trick with much less computational resources.
+SVMs are known to be slow to train on big datasets. Impossibly slow. Been there, done that. That's why, for example, there are numerous techniques to approximate the kernel trick with much less computational resources.
 
 By the way, let's compare how this K-Means trick will do against classic SVM and some alternative kernel approximation methods.
 
@@ -308,9 +308,9 @@ plt.show()
 
 _Meh. So was it all for nothing?_
 
-You know what? Not in the slightest. Even if it's the slowest, K-Means as an approximation of the RBF Kernel is still a good option. I'm not kidding. You can this special kind of K-Means in scikit-learn called `MiniBatchKMeans` which is one of the few algorithms that support the `.partial_fit` method. Combining this with a machine learning model that has `.partial_fit` too, like a `PassiveAggressiveClassifier` one can create a pretty interesting solution.
+You know what? Not in the slightest. Even if it's the slowest, K-Means as an approximation of the RBF Kernel is still a good option. I'm not kidding. You can use this special kind of K-Means in scikit-learn called `MiniBatchKMeans` which is one of the few algorithms that support the `.partial_fit` method. Combining this with a machine learning model that has `.partial_fit` too, like a `PassiveAggressiveClassifier` one can create a pretty interesting solution.
 
-Not that the beauty of `.partial_fit` is twofold. First, it makes it possible to train algorithms in an out-of-core fashion, which is to say, with more data than fits in the RAM. Second, depending on your type of problem, if you could in principle (very-very in principle) never need to switch the model, it could be additionally trained right where it is deployed. That's called online learning, and it's super interesting. Something like this is [what some Chinese companies are doing](https://huyenchip.com/2020/12/27/real-time-machine-learning.html) and in general can be pretty useful for [AdTech](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/41159.pdf), because you can receive the info whenever your ad recommendation was right or wrong within seconds.
+Note that the beauty of `.partial_fit` is twofold. First, it makes it possible to train algorithms in an out-of-core fashion, which is to say, with more data than fits in the RAM. Second, depending on your type of problem, if you could in principle (very-very in principle) never need to switch the model, it could be additionally trained right where it is deployed. That's called online learning, and it's super interesting. Something like this is [what some Chinese companies are doing](https://huyenchip.com/2020/12/27/real-time-machine-learning.html) and in general can be pretty useful for [AdTech](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/41159.pdf), because you can receive the info whenever your ad recommendation was right or wrong within seconds.
 
 You know what, here's a little example of this approach for out-of-core learning.
 
@@ -377,6 +377,10 @@ Finally, if you’re reading this, thank you! If you want to leave some feedback
 - [A stackexchange discussion about using K-Means as a feature engineering tool](https://datascience.stackexchange.com/questions/24324/how-to-use-k-means-outputs-extracted-features-as-svm-inputs)
 - [A more in-depth explanation of K-Means](https://jakevdp.github.io/PythonDataScienceHandbook/05.11-k-means.html)
 - [A research paper that uses K-Means for an efficient SVM](http://www.jcomputers.us/vol8/jcp0810-25.pdf)
+
+## Acknowledgements
+
+Special thanks to [@dgaponcic](https://twitter.com/dgaponcic) for style checks and content review, and thank you [@anisoara_ionela](https://twitter.com/anisoara_ionela) for grammar checking this article more thoroughly than any AI ever could. You're the best <3
 
 __P.S.__ I believe you noticed all these `random_state`s in the code. If you're wondering why I added these, it's to make the code samples reproducible. Because frequently tutorials don't do this and it leaves space for cherry-picking, where the author presents only the best results, and when trying to replicate these, the reader either can't or it takes a lot of time. But know this, you can play around with the values of `random_state` and get widely different results. For example, when running the snippet with original features and distances to the 3 centroids, the one with a 0.727 score, with a random seed of 41 instead of 17, you can get the accuracy score of 0.944. So yeah, `random_state` or however else the random seed is called in your framework of choice is an important aspect to keep in mind, especially when doing research.
 
