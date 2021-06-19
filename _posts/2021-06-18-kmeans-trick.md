@@ -1,10 +1,10 @@
 ---
 title: K-Means tricks for fun and profit
 published: true
-description: K-Means is an interesting, simple and pretty intuitive algorithm. It turns out it can do more than just clustering.
-tags: machine learning, clustering, artificial inteligence, k-means, svm, kernel trick
+description: K-Means is an interesting, simple, and pretty intuitive algorithm. It turns out it can do more than just clustering.
+tags: machine learning, clustering, artificial intelligence, k-means, svm, kernel trick, kmeans, kmeans svm trick
 layout: post
-date:   2021-06-18 00:10:00 +0200
+date:   2021-06-19 00:10:00 +0200
 categories: posts
 permalink: /posts/2021-06-18-kmeans-trick
 comments: true
@@ -14,11 +14,11 @@ comments: true
 
 This will be a small post, but an interesting one nevertheless.
 
-We all know, or at least heard about the K-Means clustering algorithm. I remember when I first found out about it, it seemed fascinating. An unsupervised learning algorithm that is fairly intuitive and mostly works well. But then in time the interest faded away, I started to understand its limitations, among which are the spherical cluster prior, its linear nature and what I found especially annoying in EDA scenarios, the fact that it doesn't find the optimal number of clusters by itself. And then, a couple of years ago, I found out about a few neet tricks of how to use K-Means. So here it goes.
+We all know, or at least heard about the K-Means clustering algorithm. I remember when I first found out about it, it seemed fascinating. An unsupervised learning algorithm that is fairly intuitive and mostly works well. But then in time, the interest faded away, I started to understand its limitations, among which is the spherical cluster prior, its linear nature, and what I found especially annoying in EDA scenarios, the fact that it doesn't find the optimal number of clusters by itself. And then, a couple of years ago, I found out about a few neat tricks of how to use K-Means. So here it goes.
 
 # The first trick
 
-First, the baseline. I'll use mostly the breast cancer dataset, but you can play arround with any other dataset.
+First, the baseline. I'll use mostly the breast cancer dataset, but you can play around with any other dataset.
 
 ```python
 from sklearn.cluster import KMeans
@@ -40,7 +40,7 @@ So, what's the trick?
 
 > __*K-Means can be used as a source of new features.*__ 
 
-How, you might ask? Well, K-Means is a clustering algorithm, right? You can add the infered cluster as a new categorical feature.
+How, you might ask? Well, K-Means is a clustering algorithm, right? You can add the inferred cluster as a new categorical feature.
 
 Now let's try this.
 
@@ -91,7 +91,8 @@ columns = ['mean radius', 'mean texture', 'mean perimeter', 'mean area',
        'fractal dimension error', 'worst radius', 'worst texture',
        'worst perimeter', 'worst area', 'worst smoothness',
        'worst compactness', 'worst concavity', 'worst concave points',
-       'worst symmetry', 'worst fractal dimension', 'distance to cluster 1', 'distance to cluster 2', 'distance to cluster 3']
+       'worst symmetry', 'worst fractal dimension',
+       'distance to cluster 1', 'distance to cluster 2', 'distance to cluster 3']
 data = pd.DataFrame.from_records(np.hstack([X_train, X_clusters]), columns=columns)
 sns.heatmap(data.corr())
 plt.xticks(rotation=-45)
@@ -101,7 +102,7 @@ plt.show()
 ![]({{ site.url }}/_data/corr_heatmap.png)
 _Notice the last 3 columns, especially the last one, and their color on every row._
 
-You probably heard that we want the features in the dataset to be as independent as possible. The reason is that a lot of machine learning models assume this independence in order to have a simpler algorithm. Some more info on this topic can be found [here](https://datascience.stackexchange.com/questions/24452/in-supervised-learning-why-is-it-bad-to-have-correlated-features) and [here](https://towardsdatascience.com/why-exclude-highly-correlated-features-when-building-regression-model-34d77a90ea8e), but the gist of it is that having redundant information in linear models destabilizes the model, and in turn it is more likely to mess up. On numerous ocasions I noticed this problem, sometimes even with non-linear models, and purging the dataset from correlated features usually gives a slight increase in model's performance characteristic.
+You probably heard that we want the features in the dataset to be as independent as possible. The reason is that a lot of machine learning models assume this independence to have a simpler algorithm. Some more info on this topic can be found [here](https://datascience.stackexchange.com/questions/24452/in-supervised-learning-why-is-it-bad-to-have-correlated-features) and [here](https://towardsdatascience.com/why-exclude-highly-correlated-features-when-building-regression-model-34d77a90ea8e), but the gist of it is that having redundant information in linear models destabilizes the model, and in turn, it is more likely to mess up. On numerous occasions, I noticed this problem, sometimes even with non-linear models, and purging the dataset from correlated features usually gives a slight increase in the model's performance characteristic.
 
 Back to our main topic. Given that our new features are indeed correlated with some of the existing ones, what if we use only the distances to the cluster means as features, will it work then?
 
@@ -118,13 +119,13 @@ svm.score(kmeans.transform(X_test), y_test) # should be ~0.951
 
 Much better. With this example, you can see that we can use KMeans as a way to do dimensionality reduction. Neat.
 
-So far so good. But the piece de resistance is yet to be showed.
+So far so good. But the piece de resistance is yet to be shown.
 
 # The second trick
 
 > __*K-Means can be used as a substitute for the kernel trick*__
 
-You heard me right. You can, for example define _more_ centroids for the K-Means algorithm to fit than there are features, much more.
+You heard me right. You can, for example, define _more_ centroids for the K-Means algorithm to fit than there are features, much more.
 
 ```python
 # imports from the example above
@@ -137,11 +138,11 @@ svm.fit(X_clusters, y_train)
 svm.score(kmeans.transform(X_test), y_test) # should be ~0.944
 ```
 
-Well, not as good, but pretty decent. In practice, the greates benefit of this approach is when you have a lot of data. Also predictive performance-wise your mileage may vary, I, for one, had run this method with `n_clusters=1000` and it worked better than only with a few clusters.
+Well, not as good, but pretty decent. In practice, the greatest benefit of this approach is when you have a lot of data. Also predictive performance-wise your mileage may vary, I, for one, had run this method with `n_clusters=1000` and it worked better than only with a few clusters.
 
-SVMs are known to be slow to train on big datasets. Really slow, been there, done that. That's why for example there are numerous techniques to approximate the kernel trick with much less computational resources.
+SVMs are known to be slow to train on big datasets. Impossibly slow. Been there, done that. That's why for example there are numerous techniques to approximate the kernel trick with much less computational resources.
 
-By the way, let's compare how this K-Means trick will do against classic SVM and some alternative kerner approximation methods.
+By the way, let's compare how this K-Means trick will do against classic SVM and some alternative kernel approximation methods.
 
 The code below is inspired by [these](https://scikit-learn.org/stable/auto_examples/miscellaneous/plot_kernel_approximation.html) [two](https://scikit-learn.org/stable/auto_examples/kernel_approximation/plot_scalable_poly_kernels.html) scikit-learn examples.
 
@@ -166,8 +167,11 @@ X, y = load_breast_cancer(return_X_y=True)
 X = mm.fit_transform(X)
 
 data_train, data_test, targets_train, targets_test = train_test_split(X, y, random_state=17)
+```
 
+We will test 3 methods for kernel approximation available in the scikit-learn package, against the K-Means trick, and as baselines, we will have a linear SVM and an SVM that uses the kernel trick.
 
+```python
 # Create a classifier: a support vector classifier
 kernel_svm = SVC(gamma=.2, random_state=17)
 linear_svm = LinearSVC(random_state=17)
@@ -189,7 +193,11 @@ poly_cm_approx_svm = pipeline.Pipeline([("feature_map", feature_map_poly_cm),
 kmeans_approx_svm = pipeline.Pipeline([("feature_map", feature_map_kmeans),
                                         ("svm", LinearSVC(random_state=17))])
 
+```
 
+Let's collect the timing and score results for each of our configurations.
+
+```python
 # fit and predict using linear and kernel svm:
 kernel_svm_time = time()
 kernel_svm.fit(data_train, targets_train)
@@ -241,8 +249,11 @@ for D in sample_sizes:
     poly_cm_scores.append(poly_cm_score)
     kmeans_score = kmeans_approx_svm.score(data_test, targets_test)
     kmeans_scores.append(kmeans_score)
+```
 
+Now let's plot all the collected results.
 
+```python
 plt.figure(figsize=(16, 4))
 accuracy = plt.subplot(211)
 timescale = plt.subplot(212)
@@ -273,8 +284,11 @@ accuracy.plot([sample_sizes[0], sample_sizes[-1]],
               [kernel_svm_score, kernel_svm_score], label="rbf svm")
 timescale.plot([sample_sizes[0], sample_sizes[-1]],
                [kernel_svm_time, kernel_svm_time], '--', label='rbf svm')
+```
 
+And some more plot adjustments, to make it pretty.
 
+```python
 # legends and labels
 accuracy.set_title("Classification accuracy")
 timescale.set_title("Training times")
@@ -296,7 +310,7 @@ _Meh. So was it all for nothing?_
 
 You know what? Not in the slightest. Even if it's the slowest, K-Means as an approximation of the RBF Kernel is still a good option. I'm not kidding. You can this special kind of K-Means in scikit-learn called `MiniBatchKMeans` which is one of the few algorithms that support the `.partial_fit` method. Combining this with a machine learning model that has `.partial_fit` too, like a `PassiveAggressiveClassifier` one can create a pretty interesting solution.
 
-Not that the beauty of `.partial_fit` is twofold. First, it makes it possible to train algorithms in an out-of-core fashion, which is to say, with more data than fits in the RAM. Second, depending on your type of problem, if you could in principle (very-very in principle) never need to switch the model, it could be additionally trained right where it is deployed. That's called online learning, and it's super interesting. Something like this is [what some Chinese companies are doing](https://huyenchip.com/2020/12/27/real-time-machine-learning.html) and in general can be pretty usefull for [AdTech](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/41159.pdf), because you can receive the info whenever your ad recommendation was right or wrong within seconds.
+Not that the beauty of `.partial_fit` is twofold. First, it makes it possible to train algorithms in an out-of-core fashion, which is to say, with more data than fits in the RAM. Second, depending on your type of problem, if you could in principle (very-very in principle) never need to switch the model, it could be additionally trained right where it is deployed. That's called online learning, and it's super interesting. Something like this is [what some Chinese companies are doing](https://huyenchip.com/2020/12/27/real-time-machine-learning.html) and in general can be pretty useful for [AdTech](https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/41159.pdf), because you can receive the info whenever your ad recommendation was right or wrong within seconds.
 
 You know what, here's a little example of this approach for out-of-core learning.
 
@@ -336,7 +350,7 @@ for x, y in zip(batch(X_train, n=100), batch(y_train, n=100)):
 
 
 # VS
-kmeans = MiniBatchKMeans(n_clusters=25, random_state=17)
+kmeans = MiniBatchKMeans(n_clusters=100, random_state=17)
 pac = PassiveAggressiveClassifier(random_state=17)
 
 pac.fit(kmeans.fit_transform(X_train), y_train)
@@ -351,16 +365,18 @@ pac.score(kmeans.transform(X_test), y_test)
 
 # Epilogue
 
-So you've made it till the end. Hope now your ML toolset is richer. Maybe you've heard the about the so-called "no free lunch" theorem; basically there's no silver bullet, in this case for ML problems. Maybe for the next project the methods outlined in this post won't work, but for the one that will come after that, they will. So just experiment, and see for yourself. And if you need an online learning algorithm/method, well, there's a bigger chance that K-Means as a kernel approximation is the right tool for you.
+So you've made it till the end. Hope now your ML toolset is richer. Maybe you've heard about the so-called "no free lunch" theorem; basically, there's no silver bullet, in this case for ML problems. Maybe for the next project, the methods outlined in this post won't work, but for the one that will come after that, they will. So just experiment, and see for yourself. And if you need an online learning algorithm/method, well, there's a bigger chance that K-Means as a kernel approximation is the right tool for you.
 
 By the way, there's another blog post, also on ML, in the works now. What's even nicer, among many other nice things in it, it describes a rather interesting way to use K-Means. But no spoilers for now. Stay tuned.
 
-Finally, if you’re reading this, thank you! If you want to to leave some feedback just have a question, you've got quite a menu of options (see the footer of this page for contacts + you have the Disqus comment section).
+Finally, if you’re reading this, thank you! If you want to leave some feedback just have a question, you've got quite a menu of options (see the footer of this page for contacts + you have the Disqus comment section).
 
 
 ## Some links you might find interesting
 
 - [A stackexchange discussion about using K-Means as a feature engineering tool](https://datascience.stackexchange.com/questions/24324/how-to-use-k-means-outputs-extracted-features-as-svm-inputs)
-- [A more in depth explanation of K-Means](https://jakevdp.github.io/PythonDataScienceHandbook/05.11-k-means.html)
+- [A more in-depth explanation of K-Means](https://jakevdp.github.io/PythonDataScienceHandbook/05.11-k-means.html)
 - [A research paper that uses K-Means for an efficient SVM](http://www.jcomputers.us/vol8/jcp0810-25.pdf)
+
+P.S. I believe you noticed all these `random_state`s in the code. If you're wondering why I added these, it's to make the code samples reproducible. Because frequently tutorials don't do this and it leaves space for cherry-picking, where the author presents only the best results, and when trying to replicate these, the reader either can't or it takes a lot of time. But know this, you can play around with the values of `random_state` and get widely different results. For example, when running the snippet with original features and distances to the 3 centroids, the one with a 0.727 score, with a random seed of 41 instead of 17, you can get the accuracy score of 0.944. So yeah, `random_state` or however else the random seed is called in your framework of choice is an important aspect to keep in mind, especially when doing research.
 
