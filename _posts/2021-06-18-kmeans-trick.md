@@ -14,7 +14,7 @@ comments: true
 
 This will be a pretty small post, but an interesting one nevertheless.
 
-K-Means is an elegant algorithm. It's easy to understand (make random points, move them iteratively to become centers of some existing clusters) and works well in practice. When I first learned about it, I recall being fascinated. It was elegant. But then in time, the interest faded away, I was noticing numerous limitations, among which is the spherical cluster prior, its linear nature, and what I found especially annoying in EDA scenarios, the fact that it doesn’t find the optimal number of clusters by itself, so you need to tinker with this parameter too. And then, a couple of years ago, I found out about a few neat tricks on how to use K-Means. So here it goes.
+K-Means is an elegant algorithm. It's easy to understand (make random points, move them iteratively to become centers of some existing clusters) and works well in practice. When I first learned about it, I recall being fascinated. It was elegant. But then, in time, the interest faded away, I was noticing numerous limitations, among which is the spherical cluster prior, its linear nature, and what I found especially annoying in EDA scenarios, the fact that it doesn’t find the optimal number of clusters by itself, so you need to tinker with this parameter too. And then, a couple of years ago, I found out about a few neat tricks on how to use K-Means. So here it goes.
 
 # The first trick
 
@@ -369,7 +369,7 @@ So you've made it till the end. Hope now your ML toolset is richer. Maybe you've
 
 By the way, there's another blog post, also on ML, in the works now. What's even nicer, among many other nice things in it, it describes a rather interesting way to use K-Means. But no spoilers for now. Stay tuned.
 
-Finally, if you’re reading this, thank you! If you want to leave some feedback just have a question, you've got quite a menu of options (see the footer of this page for contacts + you have the Disqus comment section).
+Finally, if you’re reading this, thank you! If you want to leave some feedback or just have a question, you've got quite a menu of options (see the footer of this page for contacts + you have the Disqus comment section).
 
 
 ## Some links you might find interesting
