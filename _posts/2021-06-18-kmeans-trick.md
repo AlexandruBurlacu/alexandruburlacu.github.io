@@ -4,7 +4,7 @@ published: true
 description: K-Means is an interesting, simple, and pretty intuitive algorithm. It turns out it can do more than just clustering.
 tags: machine learning, clustering, artificial intelligence, k-means, svm, kernel trick, kmeans, kmeans svm trick
 layout: post
-date:   2021-06-19 00:10:00 +0200
+date:   2021-06-19 20:30:00 +0200
 categories: posts
 permalink: /posts/2021-06-18-kmeans-trick
 comments: true
