@@ -19,24 +19,28 @@ So yeah, congratulations, pat yourself on the back, your family must be proud. S
 As an MLE part of your work is to pick, tune and deploy ML models. I believe I don't need to explain you that this is actually not so trivial. But most likely, you believe that the hardest part of this process is to tune the model, don't you? Or maybe that it is the deployment of the algorithm? Although these are indeed non-trivial, especially the later one, here's _The Question ©_ for you:
 > __*How do you make sure you have a high quality model in production?*__
 
-If you're gonna tell me that you just tested your model on a held-out dataset, and that your metric of choice was something like accuracy or the mean squared error, just run. Fast. Far away. Also be prepared to recieve questions on whenever or not you (1) had a baseline, (2) was the dataset balanced, (3) did you use the held-out dataset for tuning/hyperparameter search... and so on.
+If you're gonna tell me that you just tested your model on a held-out dataset, and that your metric of choice was something like accuracy or the mean squared error, just run. Fast. Far away. If you didn't, be prepared to be questioned whenever or not you (1) had a baseline, (2) balanced dataset or adjusted your metrics, (3) used the held-out dataset for tuning/hyperparameter search... and so on.
 
-![So many questions]({{ site.url }}/_data/nested_anakin.jpg)
+![So many questions...]({{ site.url }}/_data/nested_anakin.jpg)
 
-_So many questions. Made with: imgflip.com_
+_So many questions... Made with: imgflip.com_
 
-I guess you figured out by now that a simple train/test split and a few error metrics, like accuracy or maybe even F1 score are not nearly enough to answer _The Question ©_. But what _would_ be enough? Well, it depends, as all things in software engineering, but long story short, you need to at least understand that reducing your model characteristic to only one or a few scalars will forfeit way to much information about the model.
+I guess you figured out by now that a simple train/test split and a few error metrics, like accuracy or maybe even F1 score (which btw is better) are not nearly enough to answer _The Question ©_. But what _would_ be enough? Well, it depends, as all things in software engineering. Long story short, you need to at least understand that reducing your model characteristic to only one or a few scalars will forfeit way to much information about the model.
 
 
 # ... and then words of wisdom* followed
 
 _* - more like personal war stories_
 
+> Disclaimer, this is a long post, so maybe brew some tea/coffe, get a snack, you know, something to help you get through the whole thing. Maybe taking notes would help you to stay focused. It certainly helps me when reading a lot of technical text.
+
 Keep in mind that depending on the domain you apply machine learning to, a subpar model could be anything between a little annoyance for your users from which they can easily opt-out, in the best case scenarios, to a complete dumpster fire that amplifies biases and actually makes your customers run away from your business. We don't want that, your employer certainly doesn't.
 
-<!-- TK maybe insert something here -->
+Ok, copy that. But how do you _know_ that a machine learning model is good? Do you need to understand its predictions? Does your use case has a specific group of users that you care the most about? These questions can help you derive an evaluation strategy, to make sure nothing goes south after you deploy an ML model.
 
-You know what, let me first define a few ML evaluation maturity levels. For now, don't bother about the meaning of some more advanced terms here, I will explain them right after this section.
+---
+
+You know what, let me first define a few ML evaluation maturity levels. It will be easier for me to explain and for you to follow along. For now, don't bother about the meaning of some more advanced terms here, I will explain them right after this section.
 
 - **L0**: Having a train+test split and one or too few generic metrics, like MSE or Accuracy. At this level, deploying the ML model is not advised (read: irresponssible at best).
 - __L1__: Previous level, but using cross-validation if possible, or worst case scenario, having a huge, diverse test set. Per-class metrics for classification problems, multiple metrics for regression problems ([MAPE+RMSE+Adjusted R^2](https://medium.com/analytics-vidhya/mae-mse-rmse-coefficient-of-determination-adjusted-r-squared-which-metric-is-better-cd0326a5697e) are a good combination, you can also consider using [AIC and/or BIC](https://stats.stackexchange.com/questions/577/is-there-any-reason-to-prefer-the-aic-or-bic-over-the-other)). In case of regression try to have at least one metric robust to outliers.
@@ -46,7 +50,7 @@ You know what, let me first define a few ML evaluation maturity levels. For now,
 - __L2.3__: Maybe using surogate local explanations (usually LIME) to understand model predictions before approving it for deployment.
 - **L3**: Cohort-based model inspection. Error grouping/Manifold-like model inspection.
       One more important thing: taking into account the changes in data distributions and evaluating on data from different periods (if needed). Believe me when I tell you this, sometimes features/label distribution changes even in domains where you don't expect them to. And not accounting for this will give you some royal headaches.
-- __(Optional) L4__: Adversarial examples checking. Also, stuff like Anchors is at this level. In principle any other advanced model interpretability/explainability or security auditing is at this level.
+- __(Optional) L4__: Adversarial examples checking. Also, stuff like Anchors and TCAV are at this level. In principle any other advanced model interpretability/explainability or security auditing is at this level.
 
 Normally you would want to be at L1 when launching a model in a beta, L2.1 when it's in production, and from there grow to L3. L4 is more specific and not every use case requires it. Maybe you are using your ML algorithms internally, and there's low risk for some malicious agents trying to screw you, in this case I doubt you need to examine the behaviour of your model when fed adversarial examples, but use your own judgement.
 
@@ -55,9 +59,9 @@ Note that although I mention regression use-cases, I omitted a lot of info about
 
 # Methods
 
-A little disclaimer: I had [an older post]({{ site.url }}/posts/2021-05-09-archive-understanding-a-black-box) tangential to this topic, but the focus in it is on interpretability/explainability methods. In this blog post I focus more on how to assess the errors of machine learning models. If you think these topics are pretty close to each other, somewhat overlapping, you are right, to better evaluate a model we sometimes need to understand the "reasoning" it puts into making a prediction.
+A little disclaimer: I had [an older post]({{ site.url }}/posts/2021-05-09-archive-understanding-a-black-box) tangential to this topic, but the focus in it is on interpretability/explainability methods. In this blog post I focus more on how to assess the errors of machine learning models. If you think these topics are pretty close to each other, somewhat overlapping, you are right. To better evaluate a model we sometimes need to understand the "reasoning" it puts into making a prediction.
 
-So, just keep in mind that the motif of this article is _understanding how, by how much, and (maybe) why a machine learning model fails?_.
+So, just keep in mind that the motif of this article is _understanding how, by how much, and (maybe) why a machine learning model fails?_
 
 Let's roughly cluster evaluation/error analysis methods into 3 broad categories: (1) metrics, (2) groupings, and (3) interpretations. Metrics is kinda obvious, groupings are probably the most abstract ones. We put here train/test splits, cross-validation, input data cohort, and error groupings in this... oh god... group (no pun intended). Finally, under the interpretation umbrella fall such things as surrogate local explanations, feature importance, and even analyzing the most wrong predictions, among other things.
 
@@ -71,18 +75,18 @@ Finally, most of the time in production scenarios you will want to asses your mo
 
 ## Groupings
 
-So I mentioned about cohorts in the paragraph above, so will make sense to follow-up on it. Cohorts are important because your stakeholders are interested in these, sometimes you might be too, but the business is usually the number one "fan" of cohorts. Why? Well, maybe they are especially interested to provide top-notch services for a special group of customers, or maybe they must comply with some regulations that ask them for some specific level of performance for anyone and everyone.
+I mentioned about cohorts in the paragraph above, so will make sense to follow-up on it. Cohorts are important because your stakeholders are interested in these, sometimes you might be too, but the business is usually the number one "fan" of cohorts. Why? Well, maybe they are especially interested to provide top-notch services for a special group of customers, or maybe they must comply with some regulations that ask them for some specific level of performance for anyone and everyone.
 
-Also, your dataset is most certainly skeweed, if it's real world data. Meaning you will have underrepresented classes, all sorts of disbalances, and even different distributions for your features for each class/group of classes. It wouldn't be ok for the business to give mediocre recommendations for people outside US and Canada, or to predict that [a person of color is some kind of ape](https://www.cnet.com/news/google-apologizes-for-algorithm-mistakenly-calling-black-people-gorillas/).
+Also, your dataset is most certainly skeewed, if it's real world data. Meaning you will have underrepresented classes, all sorts of disbalances, and even different distributions for your features for each class/group of classes. It wouldn't be ok for the business to give mediocre recommendations for people outside US and Canada, or to predict that [a person of color is some kind of ape](https://www.cnet.com/news/google-apologizes-for-algorithm-mistakenly-calling-black-people-gorillas/).
 
 So, we need to create cohorts, or groups, based on some characteristics, and track the performance of our machine learning systems across all these. Often you will discover that teams conscious about their cohorts will deploy different models for different cohorts, to ensure high-quality service for all of these.
 
-But groupings aren't just cohorts based on input data characteristics. Sometimes for model analysis it makes sense to create groupings based on errors. Some sort of groupings by error profile. Maybe for some inputs your model, or models, are giving low errors, for other inputs some very high errors, and for yet another group if inputs an entirely different error distribution. To uncover and understand these, you could use [K-Means]({{ site.url }}/posts/2021-06-18-kmeans-trick) to cluster your losses and identify the reason your model might fail or just underperform. That's what Manifold from Uber does, and that's just brilliant!
+But groupings aren't just cohorts based on input data characteristics. Sometimes for model analysis it makes sense to create groupings based on errors. Some sort of groupings by error profile. Maybe for some inputs your model(s) gives low errors, for other inputs some very high errors, and for yet another group the error distribution is entirely different. To uncover and understand these, you could use [K-Means]({{ site.url }}/posts/2021-06-18-kmeans-trick) to cluster your losses and identify the reason your model might fail or just underperform. That's what Manifold from Uber does, and that's just brilliant!
 
 Finally, groupings are also about how you group your data into train/test splits, or maybe more splits like evaluation during the training of your model, to notice when the model starts to overfit or whatever. Also, special care should be taken when doing hyperparameter search. For fast to train models a technique called [nested cross validation](https://weina.me/nested-cross-validation/) is an incredibly good way to ensure the model is really good. The nested part is necessary because doing HPO you're basically optimizing on the evaluation set, so your results will be "optimistic" to say the least. Having an additional split could give you a more unbiased evaluation of the final model.
 What about slow models? Oh boi. Try to have a big enough dataset such that you can have big splits for all your evaluation/testing stages. You don't have this either? Have you heard about the [AI hierarchy of needs](https://hackernoon.com/the-ai-hierarchy-of-needs-18f111fcc007)?
 
-Also, an often overlooked issue is the target distribution of the dataset. It might be heavely imbalanced, and as a reasult, special care should be taken when sampling from it for train/validation/test splits. That's why you should almost always search for a way to have your splits _stratified_ (see scikit-learn's `StratifiedKFold`, also `train_test_split` has a `stratify=` parameter and for multioutput datasets check out `multioutput_crossvalidation` package). You could try to do some sort of oversampling, a la SMOTE or ADASYN, but in my experience it might not always work, so just experiment.
+Also, an often overlooked issue is the target distribution of the dataset. It might be heavely imbalanced, and as a reasult, special care should be taken when sampling from it for train/validation/test splits. That's why you should almost always search for a way to have your splits _stratified_ (see scikit-learn's `StratifiedKFold`, also `train_test_split` has a `stratify=` parameter and for multioutput datasets check out `multioutput_crossvalidation` package). When a dataset is imbalanced you could try to do some sort of oversampling, a la SMOTE or ADASYN, but in my experience it might not always work, so just experiment (a scikit-learn-like lib for this is [`imbalanced-learn`](https://imbalanced-learn.org/stable/index.html)).
 
 ## Interpretations
 
@@ -90,25 +94,28 @@ This category is pretty abstract, and some might argue that these are not really
 
 So, what things can you "interpret" about a model that can help you evaluating it? First, if your model/API allows for it, you could check feature importances. You might discover that a model puts too much weight on some obscure feature, or one that doesn't really make sense. At this point you should become a detective, and find out why is this the case. This kind of feature importance is called __*global feature impotance*__, because it is infered at the model level, from all training data.
 
-The next easy thing to do is **_perturbation analysis_**, of which there are multiple categories.
-Perturbation analysis basically means altering the input and seeing what's gonna happen. We can alter the input with different purpose in order to asses different aspects of the model. 
-    - Counterfactuals (What-If) We can check for example how sensitive is the model to changes that in principle should change the prediction in an intuitive way.
-    - Adversarials (CleverHands/Foolbox) Or, we can check whenever the model is robust against some adversarial examples. Again, this is optional.
-    - Random alterations (Robustness to change/Common Sense-ness) Similar to counterfactuals, but mostly used to asses local feature importance, that is how influencial a specific feature is for the predictions on a specific input. In case of a sentiment analysis problem a random alteration could swapping synonims for words that don't have a positive or negative semantics, aka neutral words.
-    - Out-of-distribution data (ok, this one isn't really perturbation analysis). Sometimes you want to make sure the model can generalize to data that is similar but not quite. Or maybe you just want to have some fun at work and pass german sentences to a sentiment analysis model trained on spanish text.
+The next easy thing to do is **_perturbation analysis_**, of which there are multiple categories. Perturbation analysis basically means altering the input and seeing what's goning to happen. We can alter the input with different purpose in order to asses different aspects of the model. 
+- Counterfactuals, aka "What if I change this one feature, how will my model prediction change?". We can check for example how sensitive is the model to changes that in principle should change the prediction in an intuitive way. A proeminent tool for this is [Tensorboard's What-If tool](https://www.tensorflow.org/tensorboard/what_if_tool).
+- Adversarial examples, aka "Can I create such input that while similar to a normal one will result in an absolutely messed prediction". Checking these is usually important for external user facing systems, where an attack can have very nasty consequences, and because this kind of verification is more specific, it is usually left for later during the project.
+- Random alterations, to asses how robust is the model to unimportant changes, or how well it captures "common sense-ness", also can be used for local feature importance. In case of a sentiment analysis problem a random alteration could swapping synonims for words that don't have a positive or negative semantics, aka neutral words. <!-- A colegue of mine actually was in such situation, where it turned out that location information was usefull in predicting the kind of document we were dealing with, which was either an grant/award or a project request. It turned out that poorer countries usually ask for projects, while richer onese were giving awards/grants. -->
+- Out-of-distribution data. Ok, this one isn't really perturbation analysis, but sometimes you want to make sure the model can generalize to data that is similar but not quite. Or maybe you just want [to have some fun](https://www.youtube.com/watch?v=yneJIxOdMX4) at work and pass german sentences to a sentiment analysis model trained on spanish text.
 
-<!-- A colegue of mine actually was in such situation, where it turned out that location information was usefull in predicting the kind of document we were dealing with, which was either an grant/award or a project request. It turned out that poorer countries usually ask for projects, while richer onese were giving awards/grants. -->
-
-Another way to help you uncover error patterns is through check most wrong predictions, i.e. wrong predictions that have very high model confidence. In simpler terms, the royal fuck-ups. I actually learned about this method relatively late, from the Deep Learning Book by Goodfellow et al. 
+Another way to help you uncover error patterns is through check most wrong predictions, i.e. wrong predictions that have very high model confidence. In simpler terms, the royal fuck-ups. I actually learned about this method relatively late, from the Deep Learning Book by Goodfellow et al. In fact I would recommend defining some sort of regression tests suite, to make sure that future versions of the ML model is indeed an improvement on the previous ones.
 
 <!-- I'm lazy, so I preffer perturbation analysis, no need for pretty printing and/or plotting with that one. -->
 
-Methods:
-- Similarities (neighbor instances)
-- LIME (local linear/surogate explanations)
-- SHAP (global/local explanations)
-- Anchors (local rule-based explanations)
-- Concept-identification ([Tensorflow's TCAV tool](https://github.com/tensorflow/tcav))
+<!-- TK start editing from here until... -->
+
+Finally, there are a lot of tools for ML interpretability, like LIME and SHAP which are surrogate local explanations, which means that they try to approximate a complex machine learning model with a simple machine learning model, but only on a subset of the input data, or maybe just for a single instance. SHAP is especially interesting, albeit harder to understand, given it's fundamented in game theory and uses Shapely values to define local feature importances. There are also even more advanced tools, tuned specifically for neural networks, that use different forms of saliency or activation maps. These are cool, and helpful, but harder to use. Trying to cover all these would require [an entire book](https://christophm.github.io/interpretable-ml-book/). The book is worth checking out, you will find much more detailed explanations about SHAP, LIME, Anchors (which are like local rules that explain a prediction, very interesting and much easier to understand), but also more classic approaches like PDP, ICE and ALE plots. And even concept identification approaches like [Tensorflow's TCAV tool](https://github.com/tensorflow/tcav).
+
+Instance level explanations:
+- Prototypes
+- Critics
+- Influential instances
+
+<!-- ... here, also TK add more images -->
+
+One thing to keep in mind about interpretability tools is that these are crucial for a proper model evaluation. Although not a direct mapping, you can think of these intepretation methods for a model like code review for code. And you don't merge code without code review in a production system, now do you?
 
 
 ##  Personal recommendations
@@ -149,6 +156,6 @@ I know my posts are usually long and dense, sorry, I guess, but on the other han
 
 Robustification
 - adversarial training
-- focal loss for tails
+- focal loss for tail errors
 - label smoothing
 - self-distilation -->
