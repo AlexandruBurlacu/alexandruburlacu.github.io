@@ -10,6 +10,8 @@ permalink: /posts/2021-06-15-ml-error-analysis
 comments: true
 ---
 
+<!-- TK add the repo with code examples in Jupyter -->
+
 # First there was a story...
 
 Imagine yourself working as an ML engineer... you rock!
@@ -52,6 +54,10 @@ You know what, let me first define a few ML evaluation maturity levels. It will 
       One more important thing: taking into account the changes in data distributions and evaluating on data from different periods (if needed). Believe me when I tell you this, sometimes features/label distribution changes even in domains where you don't expect them to. And not accounting for this will give you some royal headaches.
 - __(Optional) L4__: Adversarial examples checking. Also, stuff like Anchors and TCAV are at this level. In principle any other advanced model interpretability/explainability or security auditing is at this level.
 
+![Power levels]({{ site.url }}/_data/evolution.jpg)
+
+_Power levels. Don't be L0. Made with: imgflip.com_
+
 Normally you would want to be at L1 when launching a model in a beta, L2.1 when it's in production, and from there grow to L3. L4 is more specific and not every use case requires it. Maybe you are using your ML algorithms internally, and there's low risk for some malicious agents trying to screw you, in this case I doubt you need to examine the behaviour of your model when fed adversarial examples, but use your own judgement.
 
 Note that although I mention regression use-cases, I omitted a lot of info about time-series forcasting. That was done intentionally, because the topic is huge, and this post is already a long-read. But if you have a basic understanding of what's going on here, you will be able to map different time-series analysis tools onto this levels.
@@ -71,6 +77,8 @@ I won't dive deep into metrics-based evaluations, but will mention that dependin
 
 Also, on the matter of metrics that are robust to outliers, sometimes these are nice to have, if you do some outlier removal beforehand, or these might be a necessity, where you can't or specifically don't remove the outliers, for whatever reason. Keep that in mind.
 
+<!-- TK add image effect of outliers on clf/regression -->
+
 Finally, most of the time in production scenarios you will want to asses your model performance on different cohorts, and maybe even based on these cohorts to use different models. A cohort means a group of entities, with a specific grouping criterion, like an age bracket, or location-based, or maybe something else.
 
 ## Groupings
@@ -83,12 +91,16 @@ So, we need to create cohorts, or groups, based on some characteristics, and tra
 
 But groupings aren't just cohorts based on input data characteristics. Sometimes for model analysis it makes sense to create groupings based on errors. Some sort of groupings by error profile. Maybe for some inputs your model(s) gives low errors, for other inputs some very high errors, and for yet another group the error distribution is entirely different. To uncover and understand these, you could use [K-Means]({{ site.url }}/posts/2021-06-18-kmeans-trick) to cluster your losses and identify the reason your model might fail or just underperform. That's what Manifold from Uber does, and that's just brilliant!
 
+<!-- TK image with Manifold-like analysis -->
+
 Finally, groupings are also about how you group your data into train/test splits, or maybe more splits like evaluation during the training of your model, to notice when the model starts to overfit or whatever. Also, special care should be taken when doing hyperparameter search. For fast to train models a technique called [nested cross validation](https://weina.me/nested-cross-validation/) is an incredibly good way to ensure the model is really good. The nested part is necessary because doing HPO you're basically optimizing on the evaluation set, so your results will be "optimistic" to say the least. Having an additional split could give you a more unbiased evaluation of the final model.
 What about slow models? Oh boi. Try to have a big enough dataset such that you can have big splits for all your evaluation/testing stages. You don't have this either? Have you heard about the [AI hierarchy of needs](https://hackernoon.com/the-ai-hierarchy-of-needs-18f111fcc007)?
 
 Also, an often overlooked issue is the target distribution of the dataset. It might be heavely imbalanced, and as a reasult, special care should be taken when sampling from it for train/validation/test splits. That's why you should almost always search for a way to have your splits _stratified_ (see scikit-learn's `StratifiedKFold`, also `train_test_split` has a `stratify=` parameter and for multioutput datasets check out `multioutput_crossvalidation` package). When a dataset is imbalanced you could try to do some sort of oversampling, a la SMOTE or ADASYN, but in my experience it might not always work, so just experiment (a scikit-learn-like lib for this is [`imbalanced-learn`](https://imbalanced-learn.org/stable/index.html)).
 
 ## Interpretations
+
+> Disclaimer #2, this part of the blog post is maybe one of the most overwhelming. There's quite a body of literature about ML interpretability/explainability and I will only briefly mention some methods, for a more in-depth overview, check out [Interpretable Machine Learning by Christoph Molnar](https://christophm.github.io/interpretable-ml-book/).
 
 This category is pretty abstract, and some might argue that these are not really related to model evaluation, but rather ML interpretability/explainability. To which I say that these methods allow to uncover hidden errors, biases, and based on these you can pick one model over another, thus being in fact useful for evaluation. These tools are especially useful in __right answer - wrong method__ scenarios, which will pass without any issue metrics and groupings.
 
@@ -100,20 +112,22 @@ The next easy thing to do is **_perturbation analysis_**, of which there are mul
 - Random alterations, to asses how robust is the model to unimportant changes, or how well it captures "common sense-ness", also can be used for local feature importance. In case of a sentiment analysis problem a random alteration could swapping synonims for words that don't have a positive or negative semantics, aka neutral words. <!-- A colegue of mine actually was in such situation, where it turned out that location information was usefull in predicting the kind of document we were dealing with, which was either an grant/award or a project request. It turned out that poorer countries usually ask for projects, while richer onese were giving awards/grants. -->
 - Out-of-distribution data. Ok, this one isn't really perturbation analysis, but sometimes you want to make sure the model can generalize to data that is similar but not quite. Or maybe you just want [to have some fun](https://www.youtube.com/watch?v=yneJIxOdMX4) at work and pass german sentences to a sentiment analysis model trained on spanish text.
 
-Another way to help you uncover error patterns is through check most wrong predictions, i.e. wrong predictions that have very high model confidence. In simpler terms, the royal fuck-ups. I actually learned about this method relatively late, from the Deep Learning Book by Goodfellow et al. In fact I would recommend defining some sort of regression tests suite, to make sure that future versions of the ML model is indeed an improvement on the previous ones.
+Perturbation analysis can be though of as a subset of [example-based interpretability](https://christophm.github.io/interpretable-ml-book/example-based.html) methods. In this set of methods we can also put 
 
-<!-- I'm lazy, so I preffer perturbation analysis, no need for pretty printing and/or plotting with that one. -->
+Another way to help you uncover error patterns is through checking the most wrong predictions, i.e. wrong predictions that have very high model confidence. In simpler terms, the royal fuck-ups. I actually learned about this method relatively late, from the Deep Learning Book by Goodfellow et al. I'm lazy, and this method although obvious in hindsight is new to me, so I preffer doing perturbation analysis, so that there's no need for pretty printing and/or plotting with that one. But while working on my research project I am now "forcing" myself (it's not so bad really) to also do this step. 
 
-<!-- TK start editing from here until... -->
+In fact I would recommend defining some sort of regression tests suite, to make sure that future versions of the ML model is indeed an improvement on the previous ones. In it can go wrongly classified fields, or data from different types of perturbation analysis. You will thank yourself later for this regression suite.
 
-Finally, there are a lot of tools for ML interpretability, like LIME and SHAP which are surrogate local explanations, which means that they try to approximate a complex machine learning model with a simple machine learning model, but only on a subset of the input data, or maybe just for a single instance. SHAP is especially interesting, albeit harder to understand, given it's fundamented in game theory and uses Shapely values to define local feature importances. There are also even more advanced tools, tuned specifically for neural networks, that use different forms of saliency or activation maps. These are cool, and helpful, but harder to use. Trying to cover all these would require [an entire book](https://christophm.github.io/interpretable-ml-book/). The book is worth checking out, you will find much more detailed explanations about SHAP, LIME, Anchors (which are like local rules that explain a prediction, very interesting and much easier to understand), but also more classic approaches like PDP, ICE and ALE plots. And even concept identification approaches like [Tensorflow's TCAV tool](https://github.com/tensorflow/tcav).
+Finally (almost), an important class of ML interpretability tools are surrogate local explanations, of which the most proeminent tool is LIME. Surrogate local explanations try to approximate a complex machine learning model with a simple machine learning model, but only on a subset of the input data, or maybe just for a single instance.
 
-Instance level explanations:
-- Prototypes
-- Critics
-- Influential instances
+<!-- TK add image lime -->
 
-<!-- ... here, also TK add more images -->
+FINALLY (now for sure), another important class of ML interpretability methods are additive feature explanations, and for this category one of the most proeminent tool is SHAP. SHAP is especially interesting, albeit harder to understand, given it's fundamented in game theory and uses Shapely values to define local feature importances. One issue with this method is that Shapely values, or almost any other additive feature explanation method doesn't account for feature interactions, which can be a deal breaker.
+
+<!-- TK add image shap attribution -->
+<!-- TK add image shap attribution failure -->
+
+There are also even more advanced tools, tuned specifically for neural networks, that use different forms of saliency or activation maps. These are cool, and helpful, but harder to use, and not as general. Trying to cover all these would require [an entire book](https://christophm.github.io/interpretable-ml-book/), so if you're interested, you know what to do ;). You will find much more detailed explanations about SHAP, LIME, Anchors (which are like scoped local rules that explain a prediction, very interesting and much easier to understand), but also more classic approaches like PDP, ICE and ALE plots. And even concept identification approaches like [Tensorflow's TCAV tool](https://github.com/tensorflow/tcav).
 
 One thing to keep in mind about interpretability tools is that these are crucial for a proper model evaluation. Although not a direct mapping, you can think of these intepretation methods for a model like code review for code. And you don't merge code without code review in a production system, now do you?
 
@@ -130,7 +144,12 @@ Also, sometimes, especially in the early stages of development I could do kind o
 
 For personal experiments, not work-related, I also sometimes use SHAP but I find it a bit frustrating that it's hard to export the graphics and works best when working from Jupyter. Also, it's slow, but that's a general issue for all surrogate explanations.
 
-I am yet to play arround with Anchors, adversarial examples and doing stuff like "Find the most similar entry with a different class" or "Find the most similar entries to this one". The later two can be done in principle using kNN in an embedding space, it's just not all algorithms have one explicitly defined.
+I am yet to play arround with Anchors, adversarial examples and doing stuff like "Find the most similar entry with a different class" or "Find the most similar entries to this one". The later two can be done using kNN in either feature, embedding and/or prediction spaces. Microsoft Data Scientists seem to be asking this kind of questions to asses their models.**
+
+
+In the end, I am sure this amount of information is overwhelming. That's why maybe the best recommendation I could give is to just use a simple model, one that is easy to understand. To make it performant you could also try to invest time in features that make sense. All in all, just be a data scientist your company needs you to be, not the one you want to be. Boring and rational beats hype-driven.
+
+<!-- TK Chad DS vs Virgin DS meme -->
 
 
 # Epilogue
@@ -143,8 +162,9 @@ I know my posts are usually long and dense, sorry, I guess, but on the other han
 ## A few references
 - [A detailed overview of regression metrics](http://people.duke.edu/~rnau/compare.htm)
 - [Interpretable Machine Learning by Christoph Molnar](https://christophm.github.io/interpretable-ml-book/); amazing work, a lot of info, a lot of details
-- [Gamut paper]({{ site.url }}/_data/ml_debugging/19_gamut_chi.pdf) to help you ask the right questions about a model
+- **[Gamut paper]({{ site.url }}/_data/ml_debugging/19_gamut_chi.pdf) to help you ask the right questions about a model
 - [Manifold paper]({{ site.url }}/_data/ml_debugging/1808.00196.pdf) and [Manifold GitHub repo](https://github.com/uber/manifold)
+- [A good overview on how to evaluate and select ML models](https://neptune.ai/blog/the-ultimate-guide-to-evaluation-and-selection-of-models-in-machine-learning)
 - Github repos which also contain links to their respective papers:
     - [LIME GitHub repo](https://github.com/marcotcr/lime)
     - [SHAP GitHub repo](https://github.com/slundberg/shap)
