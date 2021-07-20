@@ -30,7 +30,7 @@ If you're gonna tell me that you just tested your model on a held-out dataset an
 ... and so on.
 
 
-<center><img src="{{ site.url }}/_data/nested_anakin.jpg"/></center>
+<center><img src="/_data/nested_anakin.jpg"/></center>
 <center><i>So many questions... Made with: imgflip.com</i></center>
 
 
@@ -46,7 +46,7 @@ _* - more like personal war stories_
 
 > Disclaimer, this is a long post, so maybe brew some tea/coffee, get a snack, you know, something to help you get through the whole thing. Maybe taking notes would help you to stay focused. It certainly helps me when reading a lot of technical text.
 
-Another little disclaimer: I had [an older post]({{ site.url }}/posts/2021-05-09-archive-understanding-a-black-box) tangential to this topic, but the focus in it was on interpretability/explainability methods. In this blog post, I focus more on how to assess the errors of machine learning models. If you think these topics are pretty close to each other, somewhat overlapping, you are right. To better evaluate a model, we sometimes need to understand the "reasoning" it puts into making a prediction.
+Another little disclaimer: I had [an older post](/posts/2021-05-09-archive-understanding-a-black-box) tangential to this topic, but the focus in it was on interpretability/explainability methods. In this blog post, I focus more on how to assess the errors of machine learning models. If you think these topics are pretty close to each other, somewhat overlapping, you are right. To better evaluate a model, we sometimes need to understand the "reasoning" it puts into making a prediction.
 
 <!-- The motif of this article is **_understanding how, by how much, and (maybe) why a machine learning model fails?_** -->
 
@@ -68,7 +68,7 @@ You know what, let me first define a few ML evaluation maturity levels. It will 
 - __(Optional) L4__: Adversarial examples checking. Also, stuff like Anchors and TCAV are at this level. In principle, any other advanced model interpretability/explainability or security auditing is at this level.
 
 
-<center><img src="{{ site.url }}/_data/evolution.jpg"/></center>
+<center><img src="/_data/evolution.jpg"/></center>
 <center><i>Power levels. Don't be L0. Made with: imgflip.com</i></center>
 
 
@@ -101,12 +101,12 @@ Also, your dataset is most certainly skewed, if it's real-world data. Meaning, y
 
 We need to create cohorts, or groups, based on some characteristics, and track the performance of our machine learning systems across these. Often you will discover that the teams who are conscious about their cohorts will deploy different models for different user groups, to ensure high-quality service for everyone.
 
-But groupings aren't just cohorts based on input data characteristics. Sometimes for model analysis, it makes sense to create groupings based on errors. Some kind of groupings by the error profile. Maybe for some inputs your model(s) gives low errors, for other inputs some very high errors, and for yet another group the error distribution is entirely different. To uncover and understand these, you could use [K-Means]({{ site.url }}/posts/2021-06-18-kmeans-trick) to cluster your losses and identify the reason your model might fail or just underperform. That's what Manifold from Uber does, and that's just brilliant!
+But groupings aren't just cohorts based on input data characteristics. Sometimes for model analysis, it makes sense to create groupings based on errors. Some kind of groupings by the error profile. Maybe for some inputs your model(s) gives low errors, for other inputs some very high errors, and for yet another group the error distribution is entirely different. To uncover and understand these, you could use [K-Means](/posts/2021-06-18-kmeans-trick) to cluster your losses and identify the reason your model might fail or just underperform. That's what Manifold from Uber does, and that's just brilliant!
 
 <center>
 <span>
-<img src="{{ site.url }}/_data/error_dist_cluster.png"/>
-<img src="{{ site.url }}/_data/per_feat_dist_0_to_7.png"/>
+<img src="/_data/error_dist_cluster.png"/>
+<img src="/_data/per_feat_dist_0_to_7.png"/>
 </span>
 </center>
 <center><i>(Top) 3 clusters of error distributions, and a comparision between 2 models. (Bottom) Once we have error groups, we'd like to find why are these happening. Visualizing differences in feature distribution between two of these clusters can help. <br> Source: The author. Inspired by: <a href="http://manifold.mlvis.io/">http://manifold.mlvis.io/</a>.</i></center>
@@ -142,7 +142,7 @@ Surrogate local explanations, of which the most prominent tool is LIME, are anot
 FINALLY (now for sure), another notable class of ML interpretability methods is additive feature explanations, and for this category one of the most prominent tools is SHAP. SHAP is especially interesting, albeit harder to understand, given it's based on game theory and uses Shapely values to define local feature importances. One issue with this method is that Shapely values or almost any other additive feature explanation method don't account for feature interactions, which can be a deal-breaker.
 
 
-<center><img src="{{ site.url }}/_data/shap_additive_features.png"/></center>
+<center><img src="/_data/shap_additive_features.png"/></center>
 <center><i>SHAP uses Shapley Values to explain the effect of each feature value on the prediction. Source: author.</i></center>
 
 
@@ -168,7 +168,7 @@ I am yet to play around with Anchors, adversarial examples, and doing stuff like
 
 In the end, I am sure this amount of information is overwhelming. That's why maybe the best recommendation I could give is to just use a simple model, one that is easy to understand. To make it performant you could also try to invest time in features that make sense. All in all, just be the data scientist your company needs you to be, not the one you want to be. Boring and rational beats hype-driven.
 
-<center><img src="{{ site.url }}/_data/data_scientists.jpg"/></center>
+<center><img src="/_data/data_scientists.jpg"/></center>
 <center>Choose your hero wisely. Made with: imgflip.com</center>
 
 
@@ -195,8 +195,8 @@ I know my posts are usually long and dense, sorry, I guess, but on the other han
 ## A few references
 - [A detailed overview of regression metrics](http://people.duke.edu/~rnau/compare.htm)
 - [Interpretable Machine Learning by Christoph Molnar](https://christophm.github.io/interpretable-ml-book/); amazing work, a lot of info, a lot of details
-- **[Gamut paper]({{ site.url }}/_data/ml_debugging/19_gamut_chi.pdf) to help you ask the right questions about a model
-- [Manifold paper]({{ site.url }}/_data/ml_debugging/1808.00196.pdf) and [Manifold GitHub repo](https://github.com/uber/manifold)
+- **[Gamut paper](/_data/ml_debugging/19_gamut_chi.pdf) to help you ask the right questions about a model
+- [Manifold paper](/_data/ml_debugging/1808.00196.pdf) and [Manifold GitHub repo](https://github.com/uber/manifold)
 - [A good overview on how to evaluate and select ML models](https://neptune.ai/blog/the-ultimate-guide-to-evaluation-and-selection-of-models-in-machine-learning)
 - Github repos which also contain links to their respective papers:
     - [LIME GitHub repo](https://github.com/marcotcr/lime)
