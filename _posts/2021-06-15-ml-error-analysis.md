@@ -46,20 +46,23 @@ _* - more like personal war stories_
 
 > Disclaimer, this is a long post, so maybe brew some tea/coffee, get a snack, you know, something to help you get through the whole thing. Maybe taking notes would help you to stay focused. It certainly helps me when reading a lot of technical text.
 
+Another little disclaimer: I had [an older post]({{ site.url }}/posts/2021-05-09-archive-understanding-a-black-box) tangential to this topic, but the focus in it was on interpretability/explainability methods. In this blog post, I focus more on how to assess the errors of machine learning models. If you think these topics are pretty close to each other, somewhat overlapping, you are right. To better evaluate a model, we sometimes need to understand the "reasoning" it puts into making a prediction.
+
+<!-- The motif of this article is **_understanding how, by how much, and (maybe) why a machine learning model fails?_** -->
+
 Keep in mind - depending on the domain you apply machine learning to, a subpar model could be anything from a little annoyance for your users to a complete dumpster fire that amplifies biases and makes your customers run away from your business. While it could be easy for said users to opt out from the former, the latter can ruin your business. We don't want that. Your employer certainly doesn't.
 
 Ok, copy that. But how do you _know_ that a machine learning model is good? Do you need to understand its predictions? Does your use case has a specific group of users that you care about the most? These questions can help you derive an evaluation strategy and in turn to make sure nothing goes south after you deploy an ML model.
 
----
 
 You know what, let me first define a few ML evaluation maturity levels. It will be easier for me to explain and for you to follow along. For now, don't bother about the meaning of some more advanced terms here, I will explain them right after this section.
 
 - **L0**: Having a train+test split and one or too few generic metrics, like MSE or Accuracy. At this level, deploying the ML model is not advised (read: irresponsible at best).
 - __L1__: Previous level, but using cross-validation if possible, or worst-case scenario, having a big and diverse test set. You will also need to have per-class metrics for classification problems or multiple metrics for regression problems. For classification use cases, metrics like ROC-AUC score, or F1 score are considerably better than accuracy, so use these. Also understanding your model's precision and recall characteristics can prove crucial for a successful ML product. In case of regression, [MAPE+RMSE+Adjusted R^2](https://medium.com/analytics-vidhya/mae-mse-rmse-coefficient-of-determination-adjusted-r-squared-which-metric-is-better-cd0326a5697e) are a good combination, you can also consider using [AIC and/or BIC](https://stats.stackexchange.com/questions/577/is-there-any-reason-to-prefer-the-aic-or-bic-over-the-other). For regression, try to have at least one metric robust to outliers ([MAPE is robust to some types of outliers, but not the others](https://www.h2o.ai/blog/regression-metrics-guide)).
 - **L1.1**: Check most wrong predictions, that is, entries with high prediction confidence, but that are predicted wrong. It can help you uncover error patterns, maybe even biases.
-- __L2.1__: Perturbation analysis using counterfactuals and random alterations of input values. Usually, such an approach also permits an understanding of feature importance for each entry, but that is more like a bonus you have to work to get.
-- **L2.2**: [ICE/PDP](https://scikit-learn.org/stable/modules/partial_dependence.html)/[ALE](https://christophm.github.io/interpretable-ml-book/ale.html) plots can be used to better understand feature importances. Keep in mind these are fairly compute-power demanding.
-- __L2.3__: Surrogate local explanations (usually LIME) and/or additive feature explanations (i.e. SHAP) to understand model predictions before approving the model for deployment. Also computationally demanding.
+- __L2__: Perturbation analysis using counterfactuals and random alterations of input values. Usually, such an approach also permits an understanding of feature importance for each entry, but that is more like a bonus you have to work to get.
+- **L2.1**: [ICE/PDP](https://scikit-learn.org/stable/modules/partial_dependence.html)/[ALE](https://christophm.github.io/interpretable-ml-book/ale.html) plots can be used to better understand feature importances. Keep in mind these are fairly compute-power demanding.
+- __L2.2__: Surrogate local explanations (usually LIME) and/or additive feature explanations (i.e. SHAP) to understand model predictions before approving the model for deployment. Also computationally demanding.
 - **L3**: Cohort-based model inspection. One way to define cohorts is through [Manifold](https://github.com/uber/manifold)-like error groupings.
       At this level, it's important to acknowledge the changes in data distributions and if applicable, evaluating on data from different periods. Believe me when I tell you this, sometimes features/label distribution changes even in domains where you don't expect them to. And not accounting for this will give you some royal headaches.
 - __(Optional) L4__: Adversarial examples checking. Also, stuff like Anchors and TCAV are at this level. In principle, any other advanced model interpretability/explainability or security auditing is at this level.
@@ -69,16 +72,12 @@ You know what, let me first define a few ML evaluation maturity levels. It will 
 <center><i>Power levels. Don't be L0. Made with: imgflip.com</i></center>
 
 
-You would want to be at L1 when launching a model in beta, L2.1 when it's in production, and from there grow to L3. L4 is more specific and not every use case requires it. Maybe you are using your ML algorithms internally, and there's a low risk for some malicious agents trying to screw you, in this case, I doubt you need to examine the behavior of your model when fed adversarial examples but use your own judgment.
+You would want to be at L1 when launching a model in beta, L2 when it's in production, and from there grow to L3. L4 is more specific and not every use case requires it. Maybe you are using your ML algorithms internally, and there's a low risk for some malicious agents trying to screw you, in this case, I doubt you need to examine the behavior of your model when fed adversarial examples but use your own judgment.
 
 Note that although I mention regression use-cases, I omitted a lot of info about time-series forecasting. This is done on purpose, because the topic is huge, and this post is already a long-read. But if you have a basic understanding of what's going on here, you can map different time-series analysis tools onto these levels.
 
 
 # Methods
-
-Another little disclaimer: I had [an older post]({{ site.url }}/posts/2021-05-09-archive-understanding-a-black-box) tangential to this topic, but the focus in it was on interpretability/explainability methods. In this blog post, I focus more on how to assess the errors of machine learning models. If you think these topics are pretty close to each other, somewhat overlapping, you are right. To better evaluate a model, we sometimes need to understand the "reasoning" it puts into making a prediction.
-
-Just keep in mind that the motif of this article is **_understanding how, by how much, and (maybe) why a machine learning model fails?_**
 
 Let's roughly cluster evaluation/error analysis methods into three broad categories: (1) metrics, (2) groupings, and (3) interpretations. Metrics is kind of obvious. Groupings are probably the most abstract ones. We put here train/test splits, cross-validation, input data cohort, and error groupings in this... oh god... group (no pun intended). Finally, under the interpretation umbrella fall such things as surrogate local explanations, feature importance, and even analyzing the most wrong predictions, among other things.
 
@@ -110,7 +109,7 @@ But groupings aren't just cohorts based on input data characteristics. Sometimes
 <img src="{{ site.url }}/_data/per_feat_dist_0_to_7.png"/>
 </span>
 </center>
-<center><i>(Top) 3 clusters of error distributions, and a comparision between 2 models. <br> (Bottom) The differences in feature distribution between two of the clusters. <br> Source: The author. Inspired by: <a href="http://manifold.mlvis.io/">http://manifold.mlvis.io/</a>.</i></center>
+<center><i>(Top) 3 clusters of error distributions, and a comparision between 2 models. (Bottom) Once we have error groups, we'd like to find why are these happening. Visualizing differences in feature distribution between two of these clusters can help. <br> Source: The author. Inspired by: <a href="http://manifold.mlvis.io/">http://manifold.mlvis.io/</a>.</i></center>
 
 
 Finally, groupings are also about how you arrange your data into training and testing splits. Or more splits, like evaluation during the training of your model. These help in noticing when the model starts to overfit or whatever. Also, special care should be taken when doing a hyperparameter search. For fast-to-train models, a technique called [nested cross validation](https://weina.me/nested-cross-validation/) is an incredibly good way to ensure the model is really good. The nested part is necessary because doing HPO you're optimizing on the evaluation set, so your results will be "optimistic" to say the least. Having an additional split could give you a more unbiased evaluation of the final model.
@@ -132,7 +131,7 @@ The next easy thing to do is **_perturbation analysis_**, of which there are mul
 - Random alterations, to assess how robust is the model to unimportant changes, or how well it captures "common sense-ness", also can be used for local feature importance. In the case of a sentiment analysis problem, a random alteration could be swapping synonyms for words that don't have positive or negative semantics, aka neutral words. <!-- A colleague of mine actually was in such a situation, where it turned out that location information was useful in predicting the kind of document we were dealing with, which was either a grant/award or a project request. It turned out that poorer countries usually ask for projects, while richer ones were giving awards/grants. -->
 - Out-of-distribution data. Ok, this one isn't really perturbation analysis, but sometimes you want to make sure the model can generalize to data that is similar but not quite. Or maybe you just want [to have some fun](https://www.youtube.com/watch?v=yneJIxOdMX4) at work and pass german sentences to a sentiment analysis model trained on Spanish text.
 
-<!-- Perturbation analysis can be thought of as a subset of a lareger class of methods - [example-based interpretability](https://christophm.github.io/interpretable-ml-book/example-based.html) methods. In this set of methods, we can also put searching for prototypes representing a group of inputs or predictions, or methods that allow to search for the most similar entries (nearest neighbor search). -->
+<!-- Perturbation analysis can be thought of as a subset of a larger class of methods - [example-based interpretability](https://christophm.github.io/interpretable-ml-book/example-based.html) methods. In this set of methods, we can also put searching for prototypes representing a group of inputs or predictions, or methods that allow to search for the most similar entries (nearest neighbor search). -->
 
 Another way to help you uncover error patterns is by checking the wrong predictions which have very high model confidence. In simpler terms, the royal fuck-ups. I learned this method relatively late, from the Deep Learning Book by Goodfellow et al. I'm lazy, and this method although obvious in hindsight, is new to me. I prefer doing perturbation analysis so that there's no need for pretty printing and/or plotting with that one. But while working on my research project I am now "forcing" myself (it's not so bad, really) to also do this step. 
 
@@ -180,7 +179,17 @@ Probably this post, like no other, helped me crystalize a lot of the tacit knowl
 
 I know my posts are usually long and dense, sorry, I guess, but on the other hand, now you don't have to bookmark 5-10 pages, just this one 😀😀😀 jk. Anyway, thank you for your perseverance in reading this article, and if you want to leave some feedback or just have a question, you've got quite a menu of options (see the footer of this page for contacts + you have the Disqus comment section). Guess it will take a while until next time.
 
-Until then, you can play arround with most of the methods described in this blog post [here](https://github.com/AlexandruBurlacu/error_analysis_code_samples). All examples are seeded, so it should be possible to reproduce everything. Have fun.
+
+```
+ vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+> Until then, you can play arround                                <
+> with most of the methods described in this blog post            <
+> by checking the link below                                      <
+> https://github.com/AlexandruBurlacu/error_analysis_code_samples <
+  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+```
+
+[You can also click on it here.](https://github.com/AlexandruBurlacu/error_analysis_code_samples) All examples are seeded, so it should be possible to reproduce everything. Have fun.
 
 
 ## A few references
