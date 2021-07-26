@@ -4,9 +4,9 @@ published: true
 description: When deploying machine learning algorithms, the stakes are much higher than in any toy problem or competition. For this reason, we need a much more thorough evaluation of our models, to make sure it is indeed good.
 tags: machine learning, machine learning debugging, error analysis, deep learning, machine learning evaluation, machine learning testing, artificial intelligence, fairness
 layout: post
-date:   2021-06-20 02:10:00 +0200
+date:   2021-07-26 02:10:00 +0200
 categories: posts
-permalink: /posts/2021-06-15-ml-error-analysis
+permalink: /posts/2021-07-26-ml-error-analysis
 comments: true
 ---
 
@@ -57,22 +57,22 @@ Ok, copy that. But how do you _know_ that a machine learning model is good? Do y
 
 You know what, let me first define a few ML evaluation maturity levels. It will be easier for me to explain and for you to follow along. For now, don't bother about the meaning of some more advanced terms here, I will explain them right after this section.
 
-- **L0**: Having a train+test split and one or two generic metrics, like MSE or Accuracy. At this level, deploying the ML model is not advised (read: irresponsible at best).
-- __L1__: Previous level, but using cross-validation if possible, or worst-case scenario, having a big and diverse test set. You will need to have per-class metrics for classification problems or multiple metrics for regression problems. For classification use cases, metrics like ROC-AUC score, or F1 score are considerably better than accuracy, so use these. Moreover, understanding your model's precision and recall characteristics can prove crucial for a successful ML product. In case of regression, [MAPE+RMSE+Adjusted R^2](https://medium.com/analytics-vidhya/mae-mse-rmse-coefficient-of-determination-adjusted-r-squared-which-metric-is-better-cd0326a5697e) are a good combination, you can consider using [AIC and/or BIC](https://stats.stackexchange.com/questions/577/is-there-any-reason-to-prefer-the-aic-or-bic-over-the-other) too. For regression, try to have at least one metric robust to outliers ([MAPE is robust to some types of outliers, but not the others](https://www.h2o.ai/blog/regression-metrics-guide)).
-- **L1.1**: Check most wrong predictions, that is, entries with high prediction confidence, but that are predicted wrong. It can help you uncover error patterns, maybe even biases.
-- __L2__: Perturbation analysis using counterfactuals and random alterations of input values. Usually, such an approach permits an understanding of feature importance for each entry, but that is more like a bonus you have to work to get.
-- **L2.1**: [ICE/PDP](https://scikit-learn.org/stable/modules/partial_dependence.html)/[ALE](https://christophm.github.io/interpretable-ml-book/ale.html) plots can be used to better understand feature importances. Keep in mind these are fairly compute power demanding.
-- __L2.2__: Surrogate local explanations (usually LIME) and/or additive feature explanations (i.e. SHAP) to understand model predictions before approving the model for deployment. Also computationally demanding.
-- **L3**: Cohort-based model inspection. One way to define cohorts is through [Manifold](https://github.com/uber/manifold)-like error groupings.
+- **Level 0 (L0)**: Having a train+test split and one or two generic metrics, like MSE or Accuracy. At this level, deploying the ML model is not advised (read: irresponsible at best).
+- __Level 0 (L1)__: Previous level, but using cross-validation if possible, or worst-case scenario, having a big and diverse test set. You will need to have per-class metrics for classification problems or multiple metrics for regression problems. For classification use cases, metrics like ROC-AUC score, or F1 score are considerably better than accuracy, so use these. Moreover, understanding your model's precision and recall characteristics can prove crucial for a successful ML product. In case of regression, [MAPE+RMSE+Adjusted R^2](https://medium.com/analytics-vidhya/mae-mse-rmse-coefficient-of-determination-adjusted-r-squared-which-metric-is-better-cd0326a5697e) are a good combination, you can consider using [AIC and/or BIC](https://stats.stackexchange.com/questions/577/is-there-any-reason-to-prefer-the-aic-or-bic-over-the-other) too. For regression, try to have at least one metric robust to outliers ([MAPE is robust to some types of outliers, but not the others](https://www.h2o.ai/blog/regression-metrics-guide)).
+- **Level 1.1 (L1.1)**: Check most wrong predictions, that is, entries with high prediction confidence, but that are predicted wrong. It can help you uncover error patterns, maybe even biases.
+- __Level 2 (L2)__: Perturbation analysis using counterfactuals and random alterations of input values. Usually, such an approach permits an understanding of feature importance for each entry, but that is more like a bonus you have to work to get.
+- **Level 2.1 (L2.1)**: [ICE/PDP](https://scikit-learn.org/stable/modules/partial_dependence.html)/[ALE](https://christophm.github.io/interpretable-ml-book/ale.html) plots can be used to better understand feature importances. Keep in mind these are fairly compute power demanding.
+- __Level 2.2 (L2.2)__: Surrogate local explanations (usually LIME) and/or additive feature explanations (i.e. SHAP) to understand model predictions before approving the model for deployment. Also computationally demanding.
+- **Level 3 (L3)**: Cohort-based model inspection. One way to define cohorts is through [Manifold](https://github.com/uber/manifold)-like error groupings.
       At this level, it's important to acknowledge the changes in data distributions and if applicable, to evaluate on data from different periods. Believe me when I tell you this, sometimes feature and/or label distributions can change even in domains where you don't expect them to. And not accounting for this will give you some royal headaches.
-- __(Optional) L4__: Adversarial examples checking. Stuff like Anchors and TCAV are at this level too. In principle, any other advanced model interpretability/explainability or security auditing is at this level.
+- __(Optional) Level 4 (L4)__: Adversarial examples checking. Stuff like Anchors and TCAV are at this level too. In principle, any other advanced model interpretability/explainability or security auditing is at this level.
 
 
 <center><img src="/_data/evolution.jpg"/></center>
 <center><i>Power levels. Don't be L0. Made with: imgflip.com</i></center>
 
 
-You would want to be at L1 when launching a model in beta, L2 when it's in production, and from there grow to L3. L4 is more specific and not every use case requires it. Maybe you are using your ML algorithms internally, and there's a low risk for some malicious agents trying to screw you, in this case, I doubt you need to examine the behavior of your model when fed adversarial examples but use your own judgment.
+You would want to be at Level 1 when launching a model in beta, Level 2 when it's in production, and from there grow to Level 3. Level 4 is more specific and not every use case requires it. Maybe you are using your ML algorithms internally, and there's a low risk for some malicious agents trying to screw you, in this case, I doubt you need to examine the behavior of your model when fed adversarial examples but use your own judgment.
 
 Note that although I mention regression use-cases, I omitted a lot of info about time-series forecasting. This is done on purpose, because the topic is huge, and this post is already a long-read. But if you have a basic understanding of what's going on here, you can map different time-series analysis tools onto these levels.
 
