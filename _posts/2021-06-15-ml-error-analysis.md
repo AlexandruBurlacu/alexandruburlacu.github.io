@@ -192,6 +192,11 @@ I know my posts are usually long and dense, sorry, I guess, but on the other han
 [You can also click on it here.](https://github.com/AlexandruBurlacu/error_analysis_code_samples) All examples are seeded, so it should be possible to reproduce everything. Have fun.
 
 
+## Acknowledgements
+
+Special thanks to [@dgaponcic](https://twitter.com/dgaponcic) for style checks and content review, thank you again [@anisoara_ionela](https://twitter.com/anisoara_ionela) for thorough grammar checks, and thank you [@dianaartiom](https://twitter.com/dianaartiom) for the last bits of feedback on ML. You're all  the best <3
+
+
 ## A few references
 - [A detailed overview of regression metrics](http://people.duke.edu/~rnau/compare.htm)
 - [Interpretable Machine Learning by Christoph Molnar](https://christophm.github.io/interpretable-ml-book/); amazing work, a lot of info, a lot of details
