@@ -207,7 +207,7 @@ Special thanks to [@dgaponcic](https://twitter.com/dgaponcic) for style checks a
     - [LIME GitHub repo](https://github.com/marcotcr/lime)
     - [SHAP GitHub repo](https://github.com/slundberg/shap)
     - [Anchors GitHub repo](https://github.com/marcotcr/anchor)
-- And and [Awesome GitHub repo](https://github.com/altamiracorp/awesome-xai#critiques) on different XAI tools and papers.
+- And an [Awesome GitHub repo](https://github.com/altamiracorp/awesome-xai#critiques) on different XAI tools and papers.
 
 
 
