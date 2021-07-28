@@ -182,7 +182,7 @@ I know my posts are usually long and dense, sorry, I guess, but on the other han
 
 ```
  vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-> Until then, you can play arround                                <
+> Until then, you can play around                                <
 > with most of the methods described in this blog post            <
 > by checking the link below                                      <
 > https://github.com/AlexandruBurlacu/error_analysis_code_samples <
