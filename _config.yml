@@ -59,7 +59,7 @@ defaults:
   -
     scope:
       type: posts
-      path: _posts
+      path: _posts/*.md
     values:
       is_post: true
       layout: post
@@ -71,6 +71,14 @@ defaults:
     values:
       is_post: false
       layout: default
+  -
+    scope:
+      type: posts
+      path: _posts/slides
+    values:
+      is_post: false
+      layout: slide
+
 
 google_analytics: UA-193024289-1
 gtm_id: GTM-NC2L4Z6
@@ -84,3 +92,4 @@ minima:
 include:
   - _pages
   - _data
+  - _slides

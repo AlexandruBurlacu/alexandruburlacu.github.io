@@ -1,7 +1,10 @@
 ---
-layout: page
+layout: slide
 title: Lecture slides (Distributed Systems)
 permalink: /lecture-slides/distributed-systems
+date:   2021-08-15 23:20:00 +0200
+categories: slides
+published: true
 ---
 
 # Distributed Systems Slides (2020, revised)

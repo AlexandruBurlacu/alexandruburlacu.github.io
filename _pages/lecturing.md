@@ -1,7 +1,7 @@
 ---
-layout: page
+layout: lecturing
 title: Lecture slides
-permalink: /lecture-slides/
+permalink: /lecture-slides
 ---
 
 I work as a University Assistant at the Technical University of Moldova since September 2019,  lecturing 3 courses: Network Programming, Real-Time Programming, and Distributed Systems; plus mentored some students pursuing B.E.

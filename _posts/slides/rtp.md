@@ -1,7 +1,10 @@
 ---
-layout: page
+layout: slide
 title: Lecture slides (Real Time Programming)
 permalink: /lecture-slides/real-time-programming
+date:   2021-08-15 23:20:00 +0200
+categories: slides
+published: true
 ---
 
 # Real Time Programming Slides (2020, revised)
