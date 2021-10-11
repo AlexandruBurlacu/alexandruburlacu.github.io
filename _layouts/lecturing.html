@@ -1,0 +1,36 @@
+---
+layout: default
+---
+
+<div class="lecturing">
+  {%- if page.title -%}
+    <h1 class="page-heading">{{ page.title }}</h1>
+  {%- endif -%}
+
+  {{ content }}
+
+  <!-- This fuckin doesn't work -->
+
+  {%- if site.categories.slides.size > 0 -%}
+    <h2 class="post-list-heading">{{ page.list_title | default: "Slides" }}</h2>
+    <ul class="post-list">
+      {%- for slide in site.categories.slides -%}
+      <li>
+        {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+        <span class="post-meta">{{ slide.date | date: date_format }}</span>
+        <h3>
+          <a class="post-link" href="{{ slide.url | relative_url }}">
+            {{ slide.title | escape }}
+          </a>
+        </h3>
+        {%- if site.show_excerpts -%}
+          {{ slide.excerpt }}
+        {%- endif -%}
+      </li>
+      {%- endfor -%}
+    </ul>
+
+    <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></p>
+  {%- endif -%}
+
+</div>
