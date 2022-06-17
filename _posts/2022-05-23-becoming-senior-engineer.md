@@ -1,8 +1,9 @@
 ---
 title: Becoming a Senior Engineer
 published: true
-description: Some observations of ways to grow into a senior role. What skills are most valuable for a senior engineer, and how to aquire them.
-tags: machine learning, career, career advice, senior engineer, leadership, programming
+description: Some advice how to grow to a senior engineering role. What skills are most valuable for a senior software engineering career, and how to aquire them.
+tags: career, career advice, senior engineer, leadership, staff engineer, software engineer, programming, machine learning, skills
+keywords: career, career advice, senior engineer, leadership, staff engineer, software engineer, programming, machine learning, skills
 layout: post
 date:   2022-05-23 23:00:00 +0300
 categories: posts

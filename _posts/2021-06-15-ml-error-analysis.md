@@ -2,7 +2,8 @@
 title: Going beyond simple error analysis of ML systems
 published: true
 description: When deploying machine learning algorithms, the stakes are much higher than in any toy problem or competition. For this reason, we need a much more thorough evaluation of our models, to make sure it is indeed good.
-tags: machine learning, machine learning debugging, error analysis, deep learning, machine learning evaluation, machine learning testing, artificial intelligence, fairness
+tags: machine learning, machine learning debugging, error analysis, deep learning, machine learning evaluation, machine learning testing, artificial intelligence, fairness, ml, ai, data science
+keywords: machine learning, machine learning debugging, error analysis, deep learning, machine learning evaluation, machine learning testing, artificial intelligence, fairness, ml, ai, data science
 layout: post
 date:   2021-07-26 02:10:00 +0200
 categories: posts

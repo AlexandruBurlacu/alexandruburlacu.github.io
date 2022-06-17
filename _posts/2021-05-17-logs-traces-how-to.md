@@ -2,7 +2,8 @@
 title: Logging, Tracing, Monitoring, et al.
 published: true
 description: When it comes to production-ready systems we need a way to know what's going on in it, aiding us in debugging it, when the time comes.
-tags: logging, logs, tracing, traces, observability, telemetry, monitoring, alerting, distributed-systems
+tags: logging, logs, tracing, traces, observability, telemetry, monitoring, alerting, distributed-systems, debugging, software engineering
+keywords: logging, logs, tracing, traces, observability, telemetry, monitoring, alerting, distributed-systems, debugging, software engineering
 layout: post
 date:   2021-05-19 00:10:00 +0200
 categories: posts

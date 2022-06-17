@@ -4,6 +4,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/turbolinks/5.2.0/turbolinks.js"></script>
     {%- seo -%}
+    {% if page.keywords %}
+    <meta name="keywords" content="{{ page.keywords | join: ', ' | escape }}">
+    <!-- https://seochatter.com/what-is-keyword-optimization/
+    https://keyword-hero.com/blog/keyword-optimization-for-conversions
+  https://www.semrush.com/blog/keyword-optimization/ -->
+    {% endif %}
     <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
     {%- feed_meta -%}
     {%- if jekyll.environment == 'production' -%}

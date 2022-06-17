@@ -1,8 +1,9 @@
 ---
 title: K-Means tricks for fun and profit
 published: true
-description: K-Means is an interesting, simple, and pretty intuitive algorithm. It turns out it can do more than just clustering.
-tags: machine learning, clustering, artificial intelligence, k-means, svm, kernel trick, kmeans, kmeans svm trick
+description: K-Means is an interesting, simple, and pretty intuitive algorithm. It turns out it can do more than just clustering, for example classification.
+tags: machine learning, clustering, artificial intelligence, k-means, svm, kernel trick, kmeans, kmeans svm trick, ml, ai, unsupervised ml, classification
+keywords: machine learning, clustering, artificial intelligence, k-means, svm, kernel trick, kmeans, kmeans svm trick, ml, ai, unsupervised ml, classification
 layout: post
 date:   2021-06-19 20:30:00 +0200
 categories: posts

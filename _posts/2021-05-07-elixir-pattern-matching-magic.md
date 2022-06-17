@@ -2,7 +2,8 @@
 title: Elixir pattern matching magic
 published: true
 description: Elixir, as a true functional language, allows for some impressive feats using pattern matching. Let's see some of this magic.
-tags: functional, elixir
+tags: functional, elixir, pattern matching, programming, software engineering, erlang
+keywords: functional, elixir, pattern matching, programming, software engineering, erlang
 layout: post
 date:   2021-05-07 22:12:00 +0100
 categories: posts
