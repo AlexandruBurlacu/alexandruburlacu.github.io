@@ -5,7 +5,7 @@ description: How to pick a tool, language, or framework when real money and the 
 tags: software engineering, programming, programming languages, decision making, frameworks, java, kotlin, lisp, python, go, golang, rust, rustlang, erlang, elixir, ocaml, software, engineering, senior, leadership
 keywords: software engineering, programming, programming languages, decision making, frameworks, java, kotlin, lisp, python, go, golang, rust, rustlang, erlang, elixir, ocaml, software, engineering, senior, leadership
 layout: post
-date:   2022-06-18 11:00:00 +0300
+date:   2022-06-18 01:00:00 +0300
 categories: posts
 permalink: /posts/2022-06-18-choosing-a-tool
 comments: true
