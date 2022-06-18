@@ -133,11 +133,11 @@ On the other hand, there's an interesting aspect here. If a tool is hot people w
 <center><i>Follow sage's advice 😏 Made with: imgflip.com</i></center>
 
 
-## A substitute for a conclussion
+## A substitute for a conclusion
 
-I hope I haven't fried your brains with this many things to consider. Even I sometimes don't do the whole process, or am being sloppy when assesing some of the aspects. Still, having a checklist of things to consider is always a good thing, so I hope you'll benefit from this.
+I hope I haven't fried your brains with this many things to consider. Even I sometimes don't do the whole process, or am being sloppy when assessing some of the aspects. Still, having a checklist of things to consider is always a good thing, so I hope you'll benefit from this.
 
-Maybe a bit anti-climactic, but consider this - if you picked the wrong tool, it will rarely doom your project for failure. What will is not realising you made a bad choice, and trying to fix it. Technical stacks are problems which can be fixed with money, and that's a good thing.
+Maybe a bit anti-climactic, but consider this - if you picked the wrong tool, it will rarely doom your project for failure. What will is not realizing you made a bad choice, and trying to fix it. Technical stacks are problems which can be fixed with money, and that's a good thing.
 
 Not the ending you expected? 😏
 
