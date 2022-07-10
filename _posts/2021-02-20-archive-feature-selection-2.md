@@ -114,7 +114,7 @@ Note that all feature selection, both in this blogpost and in the previous one a
 
 This series is by no means a definitive guide, but rather a list of handy tools and how to use them. If interested in FS, you should google how to perform wrapper methods efficiently, using optimization techniques like genetic algorithms, simulated annealing, or other methods alike.
 
-Also, remember this, there’s no free lunch — think which trade-offs are you ready to make, pick a couple of methods, experiment, choose the best one for your problem.
+Also, remember this, there’s no free lunch — think which trade-offs are you ready to make, pick a couple of methods, experiment, choose the best one for your problem. Keep in mind that even if you reduce the number of features, it could still be hard to understand what's going on, and what makes your model perform good or bad. To shed some light into your model's inner workings, be sure to check my [post on some of the existing XAI tools and methods]({{ site.url }}/posts/2021-05-09-archive-understanding-a-black-box). In fact, to better your ML models, you need to understand well where are they failing, and fix that first. The [_Going beyond simple error analysis of ML systems_]({{ site.url }}/posts/2021-07-26-ml-error-analysis) should help you in this endeavour.
 
 If you’re reading this, I’d like to thank you and hope all of the above written will be of great help for you, as it was for me. Let me know what are your thoughs about it in the comments section. Your feedback is valuable for me.
 

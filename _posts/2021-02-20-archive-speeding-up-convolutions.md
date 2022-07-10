@@ -158,7 +158,11 @@ Should be noted such schemes as TensorTrain decomposition and Tucker. For PyTorc
 
 The full code is currently available as a [Colaboratory notebook](https://colab.research.google.com/drive/1i0Fwh-d8kF05o4QRfJG5dZt_P7G85MCS) with a Tesla K80 GPU accelerator. Make yourself a copy and have fun tinkering around with the code.
 
-If you’re reading this, I’d like to thank you and hope all of the above written will be of great help for you, as it was for me. Let me know what are your thoughs about it in the comments section. Your feedback is valuable for me.
+If you’re reading this, I’d like to thank you and hope all of the above written will be of great help for you, as it was for me.
+
+If you are interested in more ML tricks, maybe for other data modalities, be sure to check out the [_K-Means tricks for fun and profit_]({{ site.url }}/posts/2021-06-18-kmeans-trick) post.
+
+Let me know what are your thoughs about it in the comments section. Your feedback is valuable for me.
 
 ## References
 

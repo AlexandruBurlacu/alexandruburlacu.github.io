@@ -27,7 +27,7 @@ Only filter methods will be presented because they are more generic and less com
 
 Sit tight 😉
 
-> Second part can be accessed [here]({{ site.url }}/posts/posts/archive-feature-selection-2/)
+> Second part can be accessed [here]({{ site.url }}/posts/2021-02-20-archive-feature-selection-2/)
 
 # First things first: the basics
 
@@ -114,7 +114,7 @@ Also, keep in mind that you don’t need your feature selection models trained u
 
 Most of the code here is from an old project of mine on GitHub, [here](https://github.com/AlexandruBurlacu/MLExperiments/blob/master/machine-learning-and-a-bit-of-data-science/Breast_Cancer_feature_selection.ipynb). It should work, but if it doesn’t, don’t be shy — HMU.
 
-Note that all feature selection, both in this blogpost and in the next one are applicable on feature vectors. That means, no method from here could be applied for vision problems, for example, unless you want to have fewer “features” from the last layer of a CNN, which might be a good idea, idk.
+Note that all feature selection, both in this blogpost and in the next one are applicable on feature vectors. That means, no method from here could be applied for vision problems, for example, unless you want to have fewer “features” from the last layer of a CNN, which might be a good idea, idk. Speaking of which, if you wonder how to design efficient convolutional neural networks, check out [this blog post]({{ site.url }}/posts/2021-02-20-archive-speeding-up-convolutions).
 
 Also, remember this, there’s no free lunch — think which trade-offs are you ready to make, pick a couple of methods, experiment, choose the best one for your problem.
 
