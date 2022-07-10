@@ -88,5 +88,6 @@ If you’ve made it so far, thank you! I encourage you to make your own research
 Also, don’t forget to clap if you liked the article 😏 or even follow me for more articles on miscellaneous topics from machine learning and deep learning.
 
 P.S. Sorry, no Colab Notebook this time because there are already lots of very good tutorials on this topic to get you started.
+P.P.S. I would argue that XAI and interpretable ML are a necessary tool for error analysis. Wanna know how? Check out [this post]({{ site.url }}/posts/2021-07-26-ml-error-analysis).
 
 

@@ -126,6 +126,7 @@ We manually augmented the dataset before using it with Google Vision AutoML, but
 
 Depending on the nature of your data, and your model validation setup, some AutoML solutions can easily overfit. By the nature of data I mean its properties like label distributions, how many outliers you have, and the overall quality of your dataset. To be fair, often it’s not the tool’s fault, but yours, meaning most of the time the cause of overfitting is in your evaluation setup. So watch out how you evaluate candidates, how you split your data, and if working with time-series – I don’t envy you. Treat the AutoML process like hyperparameter optimization, and split your data accordingly using something like [nested cross-validation](https://weina.me/nested-cross-validation/).
 
+You can find a comprehensive guide how to properly evaluate any machine learning model [here in this post]({{ site.url }}/posts/2021-07-26-ml-error-analysis).
 
 ### Too much emphasis on optimization
 
@@ -142,6 +143,8 @@ Often AutoML candidate models grow very complex, and converting them into anythi
 ### Hard to analyze/debug the model
 
 Recall the Google Vision AutoML story. Google didn’t have any facilities to deeply inspect models, a la [XAI](https://en.wikipedia.org/wiki/Explainable_artificial_intelligence). Also, there was no way to obtain some kind of interpretability or explanations of predictions for individual images. As a result, I was stuck with obfuscating parts of input images and analyzing the predictions. Generally, explainability and debugging tools for AutoML are a special problem. AutoML-generated models tend to be quite complex, thus hard to analyze. Additionally, most of the time the complexity hits twice, because a complex model will take more time to run predictions, and this, in turn, makes obtaining explanations using black-box analysis tools even more burdensome.
+
+If you're interested in some of the most popular black-box XAI tools, check out [this post]({{ site.url }}/posts/2021-05-09-archive-understanding-a-black-box).
 
 
 ## AutoML vs Data Scientists

@@ -37,7 +37,9 @@ Initially, the decision-making process is usually guided by a very narrow unders
 
 ## Higher-level decision making
 
-The difference between programming and getting stuff done, and software engineering is that the latter has significantly harder constraints (See [Software Engineering at Google](https://abseil.io/resources/swe-book/html/toc.html)). Not just any code can be developed productively by a changing team of people and maintained over time. And most commercial software isn't one-time scripts, but code that lives on for years, if not decades. That's why, when choosing a tool, language, or an entire stack, try to guide your decision-making with these questions, in no particular order:
+The difference between programming and getting stuff done, and software engineering is that the latter has significantly harder constraints (See [Software Engineering at Google](https://abseil.io/resources/swe-book/html/toc.html)). Not just any code can be developed productively by a changing team of people and maintained over time. And most commercial software isn't one-time scripts, but code that lives on for years, if not decades. To be a senior engineer, [among other things]({{ site.url }}/posts/2022-05-23-becoming-senior), is also about making well-thought technical choices.
+
+That's why, when choosing a tool, language, or an entire stack, try to guide your decision-making with these questions, in no particular order:
 
 - *How well documented this tool/language is?*
 - *How actively used/developed is it?*
@@ -68,7 +70,7 @@ An important technical constraint for our project is that serverless technology 
 
 We are also budget-constrained because we're a startup. We need to execute fast, or else we might not reach escape velocity, and no one will bother.
 
-With that said, let's prune some candidates. Because of our startup latency constraint, we can't afford to run anything which needs a VM-like runtime. So no Java, C#, and even Erlang or Elixir. Although Erlang and Elixir have less substantial problems with VM cold start, they have another downside of having a smaller talent pool. On yet another hand, this talent pool is usually very enthusiastic and professional. What a shame we're not building a messaging system.
+With that said, let's prune some candidates. Because of our startup latency constraint, we can't afford to run anything which needs a VM-like runtime. So no Java, C#, and even Erlang or Elixir. Although Erlang and Elixir have less substantial problems with VM cold start, they have another downside of having a smaller talent pool. On yet another hand, this talent pool is usually very enthusiastic and professional. I personally love Elixir, it's just a pleasure to write, [see why]({{ site.url }}/posts/2021-05-07-elixir-pattern-matching-magic). What a shame we're not building a messaging system.
 
 |Language|Verdict|Talent Pool Size|Tooling|Excitement Factor|Startup Latency|
 ---------|-------|----------------|-------|-----------------|----------------

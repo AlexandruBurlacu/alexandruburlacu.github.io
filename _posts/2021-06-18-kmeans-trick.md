@@ -368,7 +368,7 @@ pac.score(kmeans.transform(X_test), y_test)
 
 So you've made it till the end. Hope now your ML toolset is richer. Maybe you've heard about the so-called "no free lunch" theorem; basically, there's no silver bullet, in this case for ML problems. Maybe for the next project, the methods outlined in this post won't work, but for the one that will come after that, they will. So just experiment, and see for yourself. And if you need an online learning algorithm/method, well, there's a bigger chance that K-Means as a kernel approximation is the right tool for you.
 
-By the way, there's another blog post, also on ML, in the works now. What's even nicer, among many other nice things in it, it describes a rather interesting way to use K-Means. But no spoilers for now. Stay tuned.
+By the way, [there's another blog post]({{ site.url }}/posts/2021-07-26-ml-error-analysis), also on ML, in the works now. What's even nicer, among many other nice things in it, it describes a rather interesting way to use K-Means. But no spoilers for now. Stay tuned.
 
 Finally, if you’re reading this, thank you! If you want to leave some feedback or just have a question, you've got quite a menu of options (see the footer of this page for contacts + you have the Disqus comment section).
 
