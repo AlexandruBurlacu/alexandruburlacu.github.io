@@ -3,6 +3,7 @@
 
 layout: home
 permalink: /
+home_title: Alex's occasional blog posts
 ---
 
 I'm Alex. Most of the posts here started from the frustration of not finding what I need by googling stuff.
