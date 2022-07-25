@@ -101,7 +101,7 @@ $$ Z \in \{PCA, Linear Regression, kNN, kMeans\} $$
 
 Sometimes technical discussions take a more ML-System-Design flavor.
 
-It's COVID, so system design is usually only verbal unless you can also text-draw a solution while sharing your screen. Pseudo-code also helps.
+It's (was) COVID, so system design is usually only verbal unless you can also text-draw a solution while sharing your screen. Pseudo-code also helps.
 ML System Design seems not to be any different. It's still one of "Design a Search Engine for X", or "How are you going to design an X-which-is-actually-a-recommender-system".
 
 ```
@@ -172,7 +172,7 @@ I have no recollection of such questions in a non-senior ML interview, but plent
 
 ## Some final tips to prepare
 
-To really nail that interview process, I like doing mock interviews. The best way to do it (that I found) is [Pramp.com](pramp.com). It's not an advertisement, you can check the link - it has no referral code or anything. I just really find them helpful, especially for coding interviews and somewhat for system design interviews.
+To really nail that interview process, I like doing mock interviews. The best way to do it (that I found) is [Pramp.com](https://pramp.com). It's not an advertisement, you can check the link - it has no referral code or anything. I just really find them helpful, especially for coding interviews and somewhat for system design interviews.
 
 For ML system design, the best thing I have found so far is Chip Huyen's booklet - [Machine Learning Systems Design](https://huyenchip.com/machine-learning-systems-design/toc.html). And of course, for generic system design - [The System Design Primer](https://github.com/donnemartin/system-design-primer).
 
