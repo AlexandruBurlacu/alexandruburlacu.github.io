@@ -100,7 +100,7 @@ plt.xticks(rotation=-45)
 plt.show()
 ```
 
-![]({{ site.url }}/_data/corr_heatmap.png)
+![]({{ site.url }}/_data/webp/corr_heatmap.webp)
 _Notice the last 3 columns, especially the last one, and their color on every row._
 
 You probably heard that we want the features in the dataset to be as independent as possible. The reason is that a lot of machine learning models assume this independence to have a simpler algorithm. Some more info on this topic can be found [here](https://datascience.stackexchange.com/questions/24452/in-supervised-learning-why-is-it-bad-to-have-correlated-features) and [here](https://towardsdatascience.com/why-exclude-highly-correlated-features-when-building-regression-model-34d77a90ea8e), but the gist of it is that having redundant information in linear models destabilizes the model, and in turn, it is more likely to mess up. On numerous occasions, I noticed this problem, sometimes even with non-linear models, and purging the dataset from correlated features usually gives a slight increase in the model's performance characteristic.
@@ -305,7 +305,7 @@ plt.tight_layout()
 plt.show()
 ```
 
-![]({{ site.url }}/_data/big_comparative_study_kmeans_svm.png)
+![]({{ site.url }}/_data/webp/big_comparative_study_kmeans_svm.webp)
 
 _Meh. So was it all for nothing?_
 

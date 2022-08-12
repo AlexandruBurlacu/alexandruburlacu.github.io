@@ -106,8 +106,8 @@ But groupings aren't just cohorts based on input data characteristics. Sometimes
 
 <center>
 <span>
-<img src="/_data/error_dist_cluster.png"/>
-<img src="/_data/per_feat_dist_0_to_7.png"/>
+<img src="/_data/webp/error_dist_cluster.webp"/>
+<img src="/_data/webp/per_feat_dist_0_to_7.webp"/>
 </span>
 </center>
 <center><i>(Top) 3 clusters of error distributions, and a comparision between 2 models. (Bottom) Once we have error groups, we'd like to find why are these happening. Visualizing differences in feature distribution between two of these clusters can help. <br> Source: The author. Inspired by: <a href="http://manifold.mlvis.io/">http://manifold.mlvis.io/</a>.</i></center>

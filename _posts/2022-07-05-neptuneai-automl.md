@@ -18,14 +18,14 @@ There’s a sentiment that AutoML could leave a lot of Data Scientists jobless. 
 Why the optimism, you may ask? Because although a technical marvel, AutoML is no silver bullet. The bulk of work a data scientist does is not modeling, but rather data collection, domain understanding, figuring out how to design a good experiment, and what features can be most useful for a subsequent modeling/predictive problem. The same goes for most ML engineers and other data professionals.
 
 
-<center><img src="/_data/FullDataScienceWorkflow.drawio.png"/></center>
+<center><img src="/_data/webp/FullDataScienceWorkflow.drawio.webp"/></center>
 <center><i>Inspired by <a href="https://en.wikipedia.org/wiki/Cross-industry_standard_process_for_data_mining">CRISP-DM</a> workflow, but with all the real-world feedback loops | Image by author</i></center>
 
 Indeed, AutoML sounds like some sort of algorithmic magic, that upon receiving your labeled data, will output the best possible ML model for it. Truth be told, AutoML is a bit like interacting with a genie: “Be careful what you wish for”, or rather, what data you give it. 
 
 Remember the saying, garbage in – garbage out? Due to the additional feedback loops in an AutoML system, compared to a classic ML solution, the “garbage” will be amplified beyond your wildest imagination. I personally wasn’t careful enough and fell into this trap a few times, but more on that later.
 
-<center><img src="/_data/FullDataScienceWorkflowTimeSpent.drawio.png"/></center>
+<center><img src="/_data/webp/FullDataScienceWorkflowTimeSpent.drawio.webp"/></center>
 <center><i>Based on personal experience and the references at the end of the article | Image by author</i></center>
 
 Before making any more claims, we first need to understand what AutoML is, and what it isn’t.
@@ -34,7 +34,7 @@ Before making any more claims, we first need to understand what AutoML is, and w
 
 In practice, AutoML can take quite different forms. Sometimes a relatively efficient hyperparameter optimization tool (HPO), which can pick different ML algorithms, can be called an AutoML tool. A few notable examples are [TPOT](http://epistasislab.github.io/tpot/), [AutoKeras](http://autokeras.com/), and [H2O.ai AutoML](https://docs.h2o.ai/h2o/latest-stable/h2o-docs/automl.html) (not to be confused with [Driverless.ai](https://h2o.ai/products/h2o-driverless-ai/)). I could even speculate that given a GUI/Web interface to interact with these kinds of tools, and enough marketing budget, one can create a startup out of these.
 
-<center><img src="/_data/tpot-ml-pipeline.png"/></center>
+<center><img src="/_data/webp/tpot-ml-pipeline.webp"/></center>
 <center><i>An example AutoML loop. Image by TPOT from Epistasis Labs | <a href="http://epistasislab.github.io/tpot/">Source</a></i></center>
 
 For some Deep Learning folks, AutoML would be about NAS, aka **Network Architecture Search** algorithms or methods. These methods are actually a very interesting research direction, which brought us such computer vision architectures as EfficientNet, AmoebaNet, and methods like [DARTS](https://arxiv.org/abs/1806.09055), [ENAS](https://arxiv.org/abs/1802.03268), and [PNAS](https://arxiv.org/abs/1712.00559). A couple of notable open-source tools for NAS are [Microsoft’s NNI](https://nni.readthedocs.io/) and [MXNet AutoGluon](https://arxiv.org/abs/1802.03268).
@@ -162,7 +162,7 @@ First, there’s the [AutoML benchmark](https://github.com/openml/automlbenchmar
 
 No. On one hand, you can always try to run your models against the datasets mentioned above and see how good/bad you are against AutoML. But of course, this isn’t the answer you’re looking for. Enter [_“Man versus Machine: AutoML and Human Experts’ Role in Phishing Detection”_](https://arxiv.org/abs/2108.12193). I’ll give you the gist of it, and a personal remark.
 
-<center><img src="/_data/AutoMLvsNotAutoML.png"/></center>
+<center><img src="/_data/webp/AutoMLvsNotAutoML.webp"/></center>
 <center><i>Comparisons of the AUC score and training duration of the best model built using AutoML and non-AutoML frameworks* | See the article for more details</i></center>
 
 

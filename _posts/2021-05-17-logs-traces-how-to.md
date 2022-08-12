@@ -115,7 +115,7 @@ Once you have multiple services, you can think of a centralized logging server, 
 
 So here comes my personal opinion: you should start by logging into a file, and mandatory ensure log file rotation because you don't want a single 10GB text file. Believe me... you don't. At some point, you will also have to think of log compression and possibly log shipping. Log shipping means transferring the logs from where these were created to where these will be analyzed and stored for a long time.
 
-![](/_data/LoggingArch.png)
+![](/_data/webp/LoggingArch.webp)
 
 When it comes to log shipping, I would strongly suggest using TCP or HTTP over UDP and other protocols. Why, you may ask? Because first of all, with UDP you might lose logs while transferring them due to (1) no way of retransmitting lost packets, (2) no flow control, which might be the cause of lost packets, but also because with UDP message size is limited to 65KB of data, or even less, depending on network settings, which quite frankly could be not nearly enough. Also, your company firewalls might block this kind of traffic. So, a lot of trouble.
 
@@ -179,7 +179,7 @@ First, a good mental model about tracing is that it's like logging, but with a [
 A trace like this now can show us how, for example, a single request spans multiple services, how much time does each step takes and even how much time was spent on communication. All this can help uncover bugs and performance bottlenecks which a simple performance monitoring tool, or just logs, won't be able to do. Tracing will help you find bottleneck services, and sometimes even aid you in debugging distributed systems.
 
 
-![](/_data/Tracing.png)
+![](/_data/webp/Tracing.webp)
 
 
 Traces should be thought of as an extension to performance monitoring tools, rather than logs. Traces' primary purpose is to uncover performance issues, also sometimes pinpoint the reason a specific operation failed. You could use them as logs, but don't overload them with information, otherwise, your collection, storage, and analysis infrastructure will cry.
@@ -190,7 +190,7 @@ Side note, sometimes it is important to correlate traces with logs, for this you
 
 There are some existing Open Source tools with great support, like [Jaeger](https://www.jaegertracing.io/) and [Zipkin](https://zipkin.io/), there are also industry initiatives like OpenTracing, OpenCensus and "their combination" OpenTelemetry, not to mention a few trace formats, like [W3C Trace Context](https://w3c.github.io/trace-context/) and [Zipkin B3](https://github.com/openzipkin/b3-propagation) formats.
 
-![](/_data/TracingArch.png)
+![](/_data/webp/TracingArch.webp)
 
 A common architecture for tracing subsystems is a combination of a sidecar, collector, storage, and "presenter" components, not to mention the client library. When it comes to using tracing in a serverless setup it gets tricky, one solution would be to bypass the sidecar and send data directly to the collector, [but you will lose some nice features](https://www.jaegertracing.io/docs/1.22/faq/#do-i-need-to-run-jaeger-agent).
 

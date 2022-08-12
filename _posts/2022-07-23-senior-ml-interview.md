@@ -49,7 +49,6 @@ One position for which I did notice some big differences when it comes to the te
 
 Anyway, to give you a more detailed view, let's see what is the general interviewing process when it comes to these kinds of roles.
 
-
 ## The general interviewing flow
 
 First, let's go over the main steps in the process. Generally, there are at least 4 steps:
