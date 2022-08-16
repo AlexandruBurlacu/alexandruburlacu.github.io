@@ -49,6 +49,21 @@ One position for which I did notice some big differences when it comes to the te
 
 Anyway, to give you a more detailed view, let's see what is the general interviewing process when it comes to these kinds of roles.
 
+<!-- 
+Graphcore      - Interviewer -> Take home project    -> Technical discussion -> Behavioral
+ASOS           - Interviewer -> Take home project    -> Technical discussion + Behavioral
+Yelp           - Interviewer -> Coding challenge     -> System design + Coding interview + 2 x Behavioral
+Toptal         - Interviewer -> Coding challenge     -> Coding interview + Technical discussion -> Take home project + Technical discussion
+Sprout.ai      - Interviewer -> Take home project    -> Technical discussion -> Behavioral
+THG            - Interviewer -> Behavioral           -> Technical discussion
+Hyperscience   - Interviewer -> Technical discussion -> Behavioral
+Rasa.ai        - Interviewer -> Coding challenge     -> TBA
+Tessian        - Interviewer -> Coding interview     -> Technical discussion -> System design + Behavioral
+Audio Analytic - Interviewer -> Technical discussion + (Behavioral + Technical) + Behavioral -> Behavioral?
+Zensors        - Behavioral/Interviewer -> Technical discussion + Coding interview -> ML Coding interview -> Behavioral
+ -->
+
+
 ## The general interviewing flow
 
 First, let's go over the main steps in the process. Generally, there are at least 4 steps:

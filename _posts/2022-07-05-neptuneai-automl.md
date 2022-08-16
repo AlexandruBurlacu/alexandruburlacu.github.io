@@ -18,14 +18,14 @@ There’s a sentiment that AutoML could leave a lot of Data Scientists jobless. 
 Why the optimism, you may ask? Because although a technical marvel, AutoML is no silver bullet. The bulk of work a data scientist does is not modeling, but rather data collection, domain understanding, figuring out how to design a good experiment, and what features can be most useful for a subsequent modeling/predictive problem. The same goes for most ML engineers and other data professionals.
 
 
-<center><img src="/_data/webp/FullDataScienceWorkflow.drawio.webp"/></center>
+<center><img src="/_data/webp/FullDataScienceWorkflow.drawio.webp" alt="CRISP-DM process for data science projects"/></center>
 <center><i>Inspired by <a href="https://en.wikipedia.org/wiki/Cross-industry_standard_process_for_data_mining">CRISP-DM</a> workflow, but with all the real-world feedback loops | Image by author</i></center>
 
 Indeed, AutoML sounds like some sort of algorithmic magic, that upon receiving your labeled data, will output the best possible ML model for it. Truth be told, AutoML is a bit like interacting with a genie: “Be careful what you wish for”, or rather, what data you give it. 
 
 Remember the saying, garbage in – garbage out? Due to the additional feedback loops in an AutoML system, compared to a classic ML solution, the “garbage” will be amplified beyond your wildest imagination. I personally wasn’t careful enough and fell into this trap a few times, but more on that later.
 
-<center><img src="/_data/webp/FullDataScienceWorkflowTimeSpent.drawio.webp"/></center>
+<center><img src="/_data/webp/FullDataScienceWorkflowTimeSpent.drawio.webp" alt="The time it takes to clean the data and create relevant features is significantly larger than to train ML models"/></center>
 <center><i>Based on personal experience and the references at the end of the article | Image by author</i></center>
 
 Before making any more claims, we first need to understand what AutoML is, and what it isn’t.
@@ -162,7 +162,7 @@ First, there’s the [AutoML benchmark](https://github.com/openml/automlbenchmar
 
 No. On one hand, you can always try to run your models against the datasets mentioned above and see how good/bad you are against AutoML. But of course, this isn’t the answer you’re looking for. Enter [_“Man versus Machine: AutoML and Human Experts’ Role in Phishing Detection”_](https://arxiv.org/abs/2108.12193). I’ll give you the gist of it, and a personal remark.
 
-<center><img src="/_data/webp/AutoMLvsNotAutoML.webp"/></center>
+<center><img src="/_data/webp/AutoMLvsNotAutoML.webp" alt="Comparisons of the AUC score and training duration of the best model built using AutoML and non-AutoML frameworks"/></center>
 <center><i>Comparisons of the AUC score and training duration of the best model built using AutoML and non-AutoML frameworks* | See the article for more details</i></center>
 
 

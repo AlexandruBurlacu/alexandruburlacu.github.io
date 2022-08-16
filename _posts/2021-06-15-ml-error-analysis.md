@@ -31,7 +31,7 @@ If you're gonna tell me that you just tested your model on a held-out dataset an
 ... and so on.
 
 
-<center><img src="/_data/nested_anakin.jpg"/></center>
+<center><img src="/_data/nested_anakin.jpg" alt="So many questions... Made with: imgflip.com"/></center>
 <center><i>So many questions... Made with: imgflip.com</i></center>
 
 
@@ -69,7 +69,7 @@ You know what, let me first define a few ML evaluation maturity levels. It will 
 - __(Optional) Level 4 (L4)__: Adversarial examples checking. Stuff like Anchors and TCAV are at this level too. In principle, any other advanced model interpretability/explainability or security auditing is at this level.
 
 
-<center><img src="/_data/evolution.jpg"/></center>
+<center><img src="/_data/evolution.jpg" alt="Power levels. Don't be L0. Made with: imgflip.com"/></center>
 <center><i>Power levels. Don't be L0. Made with: imgflip.com</i></center>
 
 
@@ -89,7 +89,7 @@ I won't dive deep into metrics-based evaluations but will mention that depending
 Furthermore, on the matter of metrics that are robust to outliers, sometimes these are nice to have if you do some outlier removal beforehand. Or there might be a necessity, in cases when you can't or specifically don't remove the outliers, for whatever reason. Keep that in mind.
 
 
-<center><img src="https://scikit-image.org/docs/dev/_images/sphx_glr_plot_ransac_001.png"/></center>
+<center><img src="https://scikit-image.org/docs/dev/_images/sphx_glr_plot_ransac_001.png" alt="Effects of outliers on model fitness. Source: https://scikit-image.org"/></center>
 <center><i>Effects of outliers on model fitness. Source: https://scikit-image.org</i></center>
 
 Usually, in production scenarios, you will want to assess your model performance on different cohorts, and maybe even based on these cohorts to use different models. A cohort means a group of entities, with a specific grouping criterion, like an age bracket, or location-based, or maybe something else.
@@ -106,8 +106,8 @@ But groupings aren't just cohorts based on input data characteristics. Sometimes
 
 <center>
 <span>
-<img src="/_data/webp/error_dist_cluster.webp"/>
-<img src="/_data/webp/per_feat_dist_0_to_7.webp"/>
+<img src="/_data/webp/error_dist_cluster.webp" alt="A violin plot to compare two ML models on error groups identified by a K-Means algorithm"/>
+<img src="/_data/webp/per_feat_dist_0_to_7.webp" alt="Per-feature distribution comparison of two ML models on different error groups"/>
 </span>
 </center>
 <center><i>(Top) 3 clusters of error distributions, and a comparision between 2 models. (Bottom) Once we have error groups, we'd like to find why are these happening. Visualizing differences in feature distribution between two of these clusters can help. <br> Source: The author. Inspired by: <a href="http://manifold.mlvis.io/">http://manifold.mlvis.io/</a>.</i></center>
@@ -143,7 +143,7 @@ Surrogate local explanations, of which the most prominent tool is LIME, are anot
 FINALLY (now for sure), another notable class of ML interpretability methods is additive feature explanations, and for this category one of the most prominent tools is SHAP. SHAP is especially interesting, albeit harder to understand, given it's based on game theory and uses Shapely values to define local feature importances. One issue with this method is that Shapely values or almost any other additive feature explanation method don't account for feature interactions, which can be a deal-breaker.
 
 
-<center><img src="/_data/shap_additive_features.png"/></center>
+<center><img src="/_data/shap_additive_features.png" alt="Additive features from SHAP package can show which feature values impacted how the final prediction"/></center>
 <center><i>SHAP uses Shapley Values to explain the effect of each feature value on the prediction. Source: author.</i></center>
 
 
