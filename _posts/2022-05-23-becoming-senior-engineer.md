@@ -28,7 +28,7 @@ Another subskill deserving a place here would be explaining technical stuff to n
 
 4. **Superior hard skills** - You are one of the most knowledgeable people in your organization/community on some technology/practice/domain. You have superior skills, and for that, you are respected. Part of this is superior debugging skills. More often than we'd like, we have to fix code that's not working. The quicker this can be done, the more time is left for feature development, which is so important for the business. You think beyond just lines of code and understand the architecture and the tradeoffs which lie at its foundations. You understand that sometimes DRY is not a good idea, where you should apply design patterns, and where it's ok not to. Also, good coding skills are infectious. People will see your beautiful code and will want to do the same. In a way, you'll be a force multiplier, by influencing others to write better code, which in turn will make the codebase a nicer environment.
 
-![](/_data/webp/skills_radar_simple.webp)
+![The four main skills axes for a senior engineer are business acumen, communication, hard-skills and being a force multiplier](/_data/webp/skills_radar_simple.webp)
 
 ## ~~The~~ A potential path to senior positions
 
@@ -53,7 +53,7 @@ I would argue the four traits above are crucial to becoming a senior engineer in
 - **Humility**. You know, don't be an [unpleasand, counterproductive, or trying to dismiss others](https://www.dictionary.com/browse/dick) person. If no one wants to work with you, you will either be put on the worst projects in your company or straight fired from there. Note, don't confuse [humility](https://tomhazledine.com/humility-in-tech/) with low self-esteem.
 - **A growth mindset**. If you learned something to land a job and once there, decide to sit still on your ass, I'm afraid your only chance to become senior is by having the rest of your colleagues being [hit by a bus](https://en.wikipedia.org/wiki/Bus_factor). Stagnation should never be an option.
 
-![](/_data/webp/skills_radar_full.webp)
+![A more complete picture of the necessary skills for a senior engineer should also include attention to details, humility, and a growth mindset](/_data/webp/skills_radar_full.webp)
 
 Of course, there are always exceptions, people who hold senior or technical leadership positions without these skills, but they are that - exceptions. So, it's better to also be humble, attentive, and with a growth mindset than not to be.
 

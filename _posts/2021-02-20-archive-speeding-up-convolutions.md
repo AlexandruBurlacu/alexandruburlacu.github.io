@@ -104,7 +104,7 @@ conv = Conv2D(128, (3, 3), ...)(conv)
 
 Before diving into this method, be aware that it’s extremely dependent upon how the Separable Convolutions where implemented in a given framework. As far as I am concerned, TensorFlow might have some specific optimizations for this method while for other backends, like Caffe, CNTK or PyTorch it is unclear.
 
-![image](https://cdn-images-1.medium.com/max/716/1*odJXfzodb02HDnKy27yfpQ.png)
+![The structure of separable convolutions as a more efficient way to do convolutions](https://cdn-images-1.medium.com/max/716/1*odJXfzodb02HDnKy27yfpQ.png)
 
 _Vincent Vanhoucke, April 2014, “Learning Visual Representations at Scale”_
 
@@ -123,7 +123,7 @@ It’s not so simple tho. Beware that Separable Convolutions sometimes aren’t 
 
 ---
 
-![image](https://cdn-images-1.medium.com/max/716/1*FjzcTRoe-R680V0hOwYo5A.png)
+![CP-decomposition can substantially optimize the number of parameters of a convolution](https://cdn-images-1.medium.com/max/716/1*FjzcTRoe-R680V0hOwYo5A.png)
 
 _Source: V. Lebedev et al, Speeding-up Convolutional Neural Networks Using Fine-tuned CP-Decomposition_
 

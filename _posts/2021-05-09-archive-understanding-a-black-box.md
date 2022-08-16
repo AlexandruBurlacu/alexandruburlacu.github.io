@@ -8,7 +8,7 @@ date: 2018-04-12 17:12:00 +0100
 categories: posts
 permalink: /posts/2021-05-09-archive-understanding-a-black-box
 ---
-![](https://thepracticaldev.s3.amazonaws.com/i/bakqd3d3w3l7dhfz2zh8.jpeg)
+![Machine learning models can be as opaque and misterious as the black monolith from the 2001: A Space Odyssey movie](https://thepracticaldev.s3.amazonaws.com/i/bakqd3d3w3l7dhfz2zh8.jpeg)
 
 An overview of model interpretability methods… and why it’s important. Originally published [here](https://towardsdatascience.com/understanding-a-black-box-896df6b82c6e).
 
