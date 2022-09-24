@@ -122,6 +122,8 @@ Of course, as mentioned earlier, frequently, the model serving component has to 
 
 Finally, we also need to log and monitor our deployed ML models. Many custom solutions integrate with tools like the ELK stack for logs, OpenTelemetry for traces, and Prometheus for metrics. ML does bring some specific challenges, though. 
 
+> For a dive into what a good observability setup consists of, be sure to check out [another blog post of mine]({{ site.url }}/posts/2021-05-20-logs-traces-how-to). 
+
 First, we need to be able to collect new data for our datasets. This is mostly done either through custom infrastructure or ELK. 
 Then, we need to be able to track ML-specific signals, like distribution shifts for input values and outputs. This is a highly un-optimized scenario for tools like Prometheus. To better understand these challenges, [check out this blog post](https://www.shreya-shankar.com/rethinking-ml-monitoring-3/). A few tools try to help with this, most prominently [WhyLabs](https://whylabs.ai/) and [Arize](https://arize.com/).
 
@@ -144,7 +146,7 @@ We deploy and update ML models to better our business. Ideally, we must "link" o
 Because this problem can be so hairy, we usually extract ML model performance monitoring into a separate component and only track the system-level metrics, traces, and logs at the ML serving component level. We hope that as the infrastructure for ML model monitoring becomes better, ML serving components will provide significantly better integrations with these tools to make the troubleshooting of deployed models significantly easier.
 
 ## Evolving model serving
-Because the interactive serving setup is the most popular way to productionize ML models, we will discuss what a basic, intermediate and advanced setup looks like. What differentiates a good setup from a mediocre one is cost-effectiveness, scalability, and latency profile. Of course, the integration with the rest of the MLOps stack is also important.
+Because the interactive serving setup is the most popular way to productionize ML models, we will discuss what a basic, intermediate and advanced setup looks like. What differentiates a good setup from a mediocre one is cost-effectiveness, scalability, and latency profile. Of course, the integration with the rest of the MLOps stack is also important. In general, deciding on what architecture and tools to use is always a tricky affair, with numerous trade-offs. If you're interested in advancing your decision-making when it comes to making technical decisions, be sure to check out [this article]({{ site.url }}/posts/2022-06-18-choosing-a-tool) on what questions should you ask and some of the trade-offs you should expect. Don't mind that it's about programming languages, most questions apply to tools and frameworks too.
 
 ### Basic setup
 
