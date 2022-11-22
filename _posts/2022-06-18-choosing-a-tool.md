@@ -146,7 +146,13 @@ Not the ending you expected? 😏
 ### P.S.
 I should add a clarification about Java. Don't get me wrong - I don't "hate" Java, I just like pointing to its flaws, sometimes vehemently 😀. Java's unnecessary verbosity is the main issue that I have with it. It wasn't the only issue, but with the sped-up release cycle and a lot of ideas borrowed from other languages and communities, it's becoming a better language. Brilliant engineers use Java for many important, actively developed projects with no plans to retire or rewrite these. Ergo, it can't be an objectively "bad" language.
 
+
 <!-- Also, on a more philosophical note, keep in mind - Java was created for mass producing of software, where developers would become interchangeble. From a business point of view, this is a very good idea. But from a craftsman's point of view, this is sad and uninspiring. Also this thing become so popular because Sun marketed it as hell and people started to believe Java is good. -->
+
+### 2022-11-09 Update
+
+I came acros [this amazing presentation](https://boringtechnology.club/). It's still related to the arguments I propose, although putting a greater importance on the `Basic Level > 3rd point` decision factor. Even if initially the factor seems simplistic, there's sophistication in simplicity, and the author of this presentation does a great job uncovering it. TL;DR, it's good, on topic, and I recommend you check it out after reading my article 😀.
+
 
 #### A little disclaimer
 
