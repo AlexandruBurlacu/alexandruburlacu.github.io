@@ -76,6 +76,8 @@ defaults:
 google_analytics: G-68S6FE0XXJ
 gtm_id: GTM-NC2L4Z6
 
+google_analytics_ua: UA-193024289-1
+
 # disqus:
 #   shortname: alexandruburlacu-blog
 
