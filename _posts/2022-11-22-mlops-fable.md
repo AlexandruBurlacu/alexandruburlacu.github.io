@@ -324,7 +324,7 @@ jobs:
   check:
     runs-on: ubuntu-20.04
     outputs:
-      DIFFS: ${{ steps.diffs.outputs.DIFFS }}
+      DIFFS: ${% raw %}{{ steps.diffs.outputs.DIFFS }}{% endraw %}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -376,3 +376,6 @@ I was serious about presenting more often at conferences and meetups. And that's
 ## P.P.S.
 
 The story is based on the "Three Little Pigs" one in its Romanian/Russian variant, where the piglets are named Nif-Nif, Naf-Naf, Nuf-Nuf. Now, the local, russian-speaking population has a joke about the 4th piglet, which I'll let you guess his name. Special kudos to those who also get the meaning/connotation of the fourth piglet.
+
+<!-- https://www.unusual.vc/post/how-to-build-ml-products
+ -->
