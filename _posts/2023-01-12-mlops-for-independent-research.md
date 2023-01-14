@@ -14,9 +14,9 @@ comments: true
 
 **... Or how to run experiments on a budget.**
 
-On December 5th, I was presenting at the [Belgium MLOps meetup in Ghent](https://www.meetup.com/mlops-belgium/events/289639571/), virtually. I thought more people would benefit from that material and my experience, so I decided to have it as an article on my blog. Also, while working on that presentation, I found a few interesting, strange things, but more on that later.
+On December 5th, I was presenting online at the [Belgium MLOps meetup in Ghent](https://www.meetup.com/mlops-belgium/events/289639571/). I thought more people would benefit from the content of that presentation and my experience in general. So, I decided also to have it as an article on my blog. Also, while working on that presentation, I found a few unexpected things, but later about it.
 
-By the way, the alternative title for it is:
+Oh, by the way, one of the best alternative titles was:
 
 <center><img src="/_data/MLOpsBelgium/Alt-Title.webp" width="850" heigth="480"/></center>
 <center><i>I went with food | Image based on the slides by the author</i></center>
@@ -28,7 +28,7 @@ By the way, the alternative title for it is:
 ## Prologue - Some context
 
 I believe it's important to outline my main research driver:
-> **_I'm searching for methods to train strong neural networks from scratch. With minimum annotated data. Ideally, with minimum data._**
+> **_I'm searching for methods to train strong neural networks from scratch with minimum annotated data. Ideally, with minimum data._**
 
 Why? Throughout my career, I had cases when data was scarce and expensive to acquire, and even a pre-trained model couldn't help. So I had to create small bespoke models to tackle my problems. It was a huge pain, and I want to never go through that hell again and wish no one else would have to either.
 
@@ -38,7 +38,7 @@ Besides, sometimes, using a pre-trained model can be restrictive, depending on i
 - [A Reddit discussion about various RAIL variants and their implications](https://www.reddit.com/r/StableDiffusion/comments/z8x4k3/the_changes_between_the_creativeml_open_railm/)
 - [The New AI Model Licenses have a Legal Loophole \| Yannic Kilcher](https://www.youtube.com/watch?v=W5M-dvzpzSQ)
 
-To form a more nuanced view of ML and licensing, see the two-part essay [by Christopher Moran on The Gradient](https://thegradient.pub/machine-learning-ethics-and-open-source-licensing/). We won't dive any deeper in this rabbit hole because this blog post is about cost-efficient independent ML research.
+To form a more nuanced view of ML and licensing, see the two-part essay [by Christopher Moran on The Gradient](https://thegradient.pub/machine-learning-ethics-and-open-source-licensing/). We won't dive any deeper in this rabbit hole, otherwise we'll stray waaaaay too far from this blog's scope.
 
 <!-- 
 https://www.digitalocean.com/community/tutorials/understanding-open-source-software-licenses
@@ -46,7 +46,7 @@ https://fossa.com/developers-guide-open-source-software-licenses
 https://www.digitalocean.com/community/conceptual-articles/free-vs-open-source-software
  -->
 
-So anyway, in the summer of 2021, I had a research internship at Université Paris Sorbonne Nord. I had my own research agenda, and my supervisor was super cool about it. My research project was about searching for more sample-efficient self-supervised learning techniques. I was working with images, but the method should be modality-agnostic.
+So anyway, in the summer of 2021, I had a research internship at Université Paris Sorbonne Nord. I had my own research agenda, and my supervisor was super cool about it. My research project was about searching for more sample-efficient self-supervised learning techniques (SSL). I was working with images, but the method should be modality-agnostic.
 
 The only downside, stemming from my not wanting to work on some existing, grant-covered project, was that I had no access to the necessary hardware.
 
@@ -67,9 +67,9 @@ Bye.
 
 Hold on, seriously. How do you proceed? A good GPU machine will set you back a few thousand USD, even with the crypto boom somewhat behind.
 
-Besides, my project was pretty short-term, so that workstation won't have had a good ROI.
+Besides, my project was pretty short-term, so such an investment would be a net loss. And I'm not even counting the time I could spend on it playing games instead of training nets.
 
-And if that wasn't enough, depending on where you live and the quality of your electric wiring, such a machine will bring more pain and expenses than joy.
+And if that wasn't enough, depending on where you live and the quality of your electric wiring, such a machine will bring more pain and expenses than joy. Have you ever had your personal computer/workstation randomly shutdown due to excesive power consumption, maybe even taking down all your desk appliances with it too? I have.
 
 
 ### Free solution: Google Colab
@@ -200,7 +200,7 @@ The `.tf` files use the GCP provisioner, and as such, they need a service accoun
 
 <!-- I don't know about you, but to me HCL (Hashicorp Configuration Language) looks a bit like JSON and Protobuf had a baby. -->
 
-Once the infrastructure provisioning part is done, the `local-exec` provisioner is triggered, which is responsible for running the Ansible playbook and configuring each provisioned VMs. It installs drivers, sets env vars, and launches MLFlow or Jupyterlab as background processes. See an example Ansible playbook below.
+Once the infrastructure provisioning part is done, the `local-exec` provisioner is triggered, which is responsible for running the Ansible playbook and configuring each provisioned VM. It installs drivers, sets env vars, and launches MLFlow or Jupyterlab as background processes. See an example Ansible playbook below.
 
 ```yaml
 ---
@@ -231,7 +231,7 @@ Once the infrastructure provisioning part is done, the `local-exec` provisioner 
 
 I am provisioning two VMs, one for the experiment tracker and one for running experiments. I also need a firewall to allow TCP traffic on select ports, specifically 5000 (MLFlow), 8888 (JupyterLab), and 22 (SSH). Finally, I have a GCS bucket as the artifact repository for MLFlow.
 
-Notice that my VMs receive a copy of my SSH public key. It's necessary to allow SSH connections from my local machine because Ansible uses SSH to connect to its targets securely. 
+Notice that my VMs receive a copy of my SSH public key. It's necessary to allow SSH connections from my local machine because Ansible uses SSH to connect to its targets. 
 
 
 
@@ -246,8 +246,8 @@ Papermill allows for parametrized, programmatic execution of Jupyter notebooks. 
 |---------------|------------|
 | Parametrizes notebooks |  Propose hyperparameters |
 | Can inspect them           | Extract final scores |
-| Executes them               |  Should be obvious |
-| And stores them            |  Saves specific notebook variants |
+| Executes them               |  Run notebooks from the command line |
+| Stores them            |  Save specific notebook variants |
                                 
 
 So, in my setup a Python CLI program with Optuna and Papermill is used to launch multiple parallel experiments, something like this:
@@ -302,8 +302,8 @@ My tracking strategy:
 - During fine-tuning, track loss, top-1 and top-5 accuracy on both training and validation splits
 - During pre-training, only track loss
 - No need to track data because I use standard datasets like CIFAR100 or STL10
-- Based on my previous experience, working with nested runs is a pain, so I don't use those
-- I created a new experiment on qualitative/untracked change (a different dataset, changed pre-processing code, a different SSL method)
+- Based on my previous experience, I find it quite annoying working with nested runs, so I don't use those
+- I created a new experiment on qualitative/untracked change (a different dataset, changed pre-processing code, a different SSL pre-training method)
 
 Some of it is also explained in detail in that same article referenced above ([here it is]({{ site.url }}/posts/2022-11-22-mlops-fable), for your convenience), in the `The takeaways > Experiment tracking` part.
 
@@ -333,14 +333,14 @@ A100 w\ 448 batch size - 169s -->
 
 Let's do some simple math with the same setup.
 
-A model takes 7.2GB of VRAM. Except for A100, it uses 8.4GB for the same setup. No idea why.
+A model takes 7.2GB of VRAM. Except for A100, **it uses 8.4GB** for the same setup. No idea why.
 
 | GPU Type | Nr. of parallel runs |
 |------------|-----------|
 | Colab K80 12GB | 1 |
 | T4 16GB        | 2 |
 | V100 16GB      | 2 |
-| A100 40GB      | 4 (5 w/ 448 batch size) |
+| A100 40GB      | 4 (**5 runs with `batch_size` 448**) |
 
 Let's do some more math.
 
@@ -352,7 +352,7 @@ GCP billed my A2 instance for 44h. Meaning I was running experiments for almost 
 
 Hold on, 5 parallel runs on A100 are possible when using 448 batch size, not 512. That's almost a 10% smaller batch size, so the training should take roughly 10% more time in this setting. Well, based on a few experiments, changing the batch size from 512 to 448 results in just 3-5% pre-training slowdown, plus there's the fine-tuning part, which we don't alter, so all in all, it's still going to be roughly 2.2x faster than T4.
 
-Anyway, for that 44h I paid 48 USD.
+Anyway, **for that 44h I paid 48 USD**.
 
 Before we move forward, let's make one thing clear: based on the information we have so far, **Colab Pro/Pro+ is not worth it**, compared with my setup, at least.
 
@@ -362,9 +362,9 @@ Let's do some more math. How much would I have to pay for 240h of using a T4 GPU
 
 `240h x 3.15 USD/h / 17.381h = 43.5 USD`
 
-Based on these calculations, I paid a ~5 USD premium for a ~6x speedup. Totally worth it.
+Based on these calculations, I paid a **~5 USD premium for a ~6x speedup**. Totally worth it.
 
-In fact, I would have paid more than 43 USD for 240h on T4. Because it seems the network is 1.8-2x slower on N1 instances, resulting in a long time to download the necessary dataset after each provisioning. A few test runs of A2 and N1-standard-8 instances averaged 9m 30s and 19m, respectively, to download the CIFAR100. On a side note, I could have kept copies of the datasets in a GCS bucket, but I didn't. Maybe I thought it would cost a little too much for its worth, and I'd be annoyed by it. But what's done is done. Given that I would need to run a T4 instance for considerably longer to do the same amount of work, I'd also have to provision my infrastructure more often, leading to more times I have to wait until my CIFAR100 or STL10 datasets are downloaded. That would definitely result in more than 43 USD.
+In fact, I would have paid more than 43 USD for 240h on T4. Because it seems the **network is 1.8-2x slower** on N1 instances, resulting in a long time to download the necessary dataset after each provisioning. A few test runs of A2 and N1-standard-8 instances averaged 9m 30s and 19m, respectively, to download the CIFAR100. On a side note, I could have kept copies of the datasets in a GCS bucket, but I didn't. Maybe I thought it would cost a little too much for its worth, and I'd be annoyed by it. But what's done is done. Given that I would need to run a T4 instance for considerably longer to do the same amount of work, I'd also have to provision my infrastructure more often, leading to more times I have to wait until my CIFAR100 or STL10 datasets are downloaded. That would definitely result in more than 43 USD.
 
 So A2 is both faster **and** cheaper in my setup. I wish my gut feeling would always work this well.
 
@@ -376,9 +376,9 @@ So, I hope you can see that using the most expensive single GPU setup on GCP tur
 
 ## Future directions
 
-It may seem like I have my setup optimized as hell. But it has room for improvement. I'd say the room is the size of a nice large kitchen with an isle in the middle and a terrace for summer dining.
+It may seem like I have my setup optimized to the limit. But it has room for improvement. I'd say the room is the size of a nice large kitchen with an isle in the middle and a terrace for summer dining.
 
-The most impactful missed opportunity is using Mixed Precision. Surprisingly, I wasn't using it. Maybe because of my old trauma installing APEX from scratch. But now [it's pretty easy](https://pytorch.org/blog/accelerating-training-on-nvidia-gpus-with-pytorch-automatic-mixed-precision/), or so [they say](https://discuss.pytorch.org/t/torch-cuda-amp-vs-nvidia-apex/74994/9). Thankfully A100 GPUs have a magic trick, which seems to be enabled by default on PyTorch. This trick is called the TF32 datatype. It's a reduced-precision floating point number representation, which can be run on Nvidia's Tensor Cores and allow for a transparent and easy switch to FP32 when necessary.
+The most impactful missed opportunity is using Mixed Precision. Surprisingly, I wasn't using it. Maybe because of my old trauma installing APEX from scratch. But now [it's pretty easy](https://pytorch.org/blog/accelerating-training-on-nvidia-gpus-with-pytorch-automatic-mixed-precision/), or so [they say](https://discuss.pytorch.org/t/torch-cuda-amp-vs-nvidia-apex/74994/9). Thankfully A100 GPUs have a magic trick, which seems to be enabled by default on PyTorch. This trick is called the TF32 float number representation. It's a reduced-precision floating point number representation, which can be run on Nvidia's Tensor Cores and allow for a transparent and easy switch to FP32 when necessary.
 
 
 A trickier thing I'd like to do is to optimize the data loading. CPUs are underutilized in my setup. Given that my datasets are all standard, I'm considering using [FFCV](https://ffcv.io/).
