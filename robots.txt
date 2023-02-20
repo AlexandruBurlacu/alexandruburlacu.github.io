@@ -1,3 +1,4 @@
 User-agent: *
 Sitemap: https://alexandruburlacu.github.io/sitemap.xml
 Allow: /
+Disallow: /odsc-2023-video-intro
