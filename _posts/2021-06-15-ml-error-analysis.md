@@ -47,7 +47,7 @@ _* - more like personal war stories_
 
 > Disclaimer, this is a long post, so maybe brew some tea/coffee, get a snack, you know, something to help you get through the whole thing. Maybe taking notes would help you to stay focused. It certainly helps me when reading a lot of technical text.
 
-Another little disclaimer: I had [an older post](/posts/2021-05-09-archive-understanding-a-black-box) tangential to this topic, but the focus in it was on interpretability/explainability methods. In this blog post, I focus more on how to assess the errors of machine learning models. If you think these topics are pretty close to each other, somewhat overlapping, you are right. To better evaluate a model, we sometimes need to understand the "reasoning" it puts into making a prediction.
+Another little disclaimer: I had [an older post]({{ site.url }}/posts/2021-05-09-archive-understanding-a-black-box) tangential to this topic, but the focus in it was on interpretability/explainability methods. In this blog post, I focus more on how to assess the errors of machine learning models. If you think these topics are pretty close to each other, somewhat overlapping, you are right. To better evaluate a model, we sometimes need to understand the "reasoning" it puts into making a prediction.
 
 <!-- The motif of this article is **_understanding how, by how much, and (maybe) why a machine learning model fails?_** -->
 
@@ -102,7 +102,7 @@ Moreover, your dataset is most certainly skewed, if it's real-world data. Meanin
 
 We need to create cohorts, or groups, based on some characteristics, and track the performance of our machine learning systems across these. Often you will discover that the teams who are conscious about their cohorts will deploy different models for different user groups, to ensure high-quality service for everyone.
 
-But groupings aren't just cohorts based on input data characteristics. Sometimes for model analysis, it makes sense to create groupings based on errors. Some kind of groupings by the error profile. Maybe for some inputs your model(s) gives low errors, for other inputs some very high errors, and for yet another group the error distribution is entirely different. To uncover and understand these, you could use [K-Means](/posts/2021-06-18-kmeans-trick) to cluster your losses and identify the reason your model might fail or just underperform. That's what Manifold from Uber does, and that's just brilliant!
+But groupings aren't just cohorts based on input data characteristics. Sometimes for model analysis, it makes sense to create groupings based on errors. Some kind of groupings by the error profile. Maybe for some inputs your model(s) gives low errors, for other inputs some very high errors, and for yet another group the error distribution is entirely different. To uncover and understand these, you could use [K-Means]({{ site.url }}/posts/2021-06-18-kmeans-trick) to cluster your losses and identify the reason your model might fail or just underperform. That's what Manifold from Uber does, and that's just brilliant!
 
 <center>
 <span>

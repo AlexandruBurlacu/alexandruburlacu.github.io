@@ -294,7 +294,7 @@ So you have a trained ML model. You can also fully replicate it. Now what?
 
 ### ML Serving
 
-You need to deploy and serve it somehow! How? Use docker and an app server! Consider Ray Serve, BentoML, or Seldon if you care about SLAs. These are specialized solutions that provide impactful features like adaptive batching, model pooling, and so on. If you care much about SLAs, try Triton Inference Server from NVidia. If you want to dive deeper into details, [read my blog post on the topic](/posts/2022-09-25-neptuneai-ml-serving).
+You need to deploy and serve it somehow! How? Use docker and an app server! Consider Ray Serve, BentoML, or Seldon if you care about SLAs. These are specialized solutions that provide impactful features like adaptive batching, model pooling, and so on. If you care much about SLAs, try Triton Inference Server from NVidia. If you want to dive deeper into details, [read my blog post on the topic]({{ site.url }}/posts/2022-09-25-neptuneai-ml-serving).
 
 ### ML Tests
 
