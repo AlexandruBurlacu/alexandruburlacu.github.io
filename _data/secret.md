@@ -1,6 +1,6 @@
 ---
 layout: default
-permalink: /_secret
+permalink: /secret
 ---
 
 Oh, hi there!
